@@ -104,8 +104,8 @@ namespace engine {
             keys.Left = (keyEventArgs.Code == Keyboard.Key.Left || keyEventArgs.Code == Keyboard.Key.A) ? true : keys.Left;
             keys.Right = (keyEventArgs.Code == Keyboard.Key.Right || keyEventArgs.Code == Keyboard.Key.D) ? true : keys.Right;
             keys.Jump = keyEventArgs.Code == Keyboard.Key.Space ? true : keys.Jump;
-            keys.Fire1 = (keyEventArgs.Code == Keyboard.Key.LShift || keyEventArgs.Code == Keyboard.Key.Z) ? true : keys.Fire1;
-            keys.Fire2 = (keyEventArgs.Code == Keyboard.Key.LControl || keyEventArgs.Code == Keyboard.Key.X) ? true : keys.Fire2;
+            keys.Fire1 = (keyEventArgs.Code == Keyboard.Key.RShift || keyEventArgs.Code == Keyboard.Key.Z) ? true : keys.Fire1;
+            keys.Fire2 = (keyEventArgs.Code == Keyboard.Key.RControl || keyEventArgs.Code == Keyboard.Key.X) ? true : keys.Fire2;
             stateLock.ReleaseMutex();
         }
 
