@@ -2,6 +2,7 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
@@ -122,15 +123,51 @@ namespace engine {
             stateLock.ReleaseMutex();
         }
 
-        public static bool IsPlaceMeeting(Vector2f pos, GameObject[] objects) {
+        private static bool intersect(IntRect a, IntRect b) {
+            return Math.Max(a.Left, b.Left) < Math.Min(a.Left + a.Width, b.Left + b.Width)
+                && Math.Max(a.Top, b.Top) < Math.Min(a.Top + a.Height, b.Top + b.Height);
+        }
+
+        public static bool IsPlaceMeeting(Vector2f pos, GameObject self, GameObject[] objects) {
+            var center = self.GetSpriteIndex().Origin;
+            var mask = self.GetMask();
+
+            var relativeMask = new IntRect(
+                (int) (pos.X - center.X + mask.Left),
+                (int) (pos.Y - center.X + mask.Top),
+                mask.Width, mask.Height
+            );
+
             foreach(var obj in objects) {
-                if(pos.X >= obj.GetMask().Left && pos.X <= obj.GetMask().Left + obj.GetMask().Width
-                        && pos.Y >= obj.GetMask().Top && pos.Y <= obj.GetMask().Top + obj.GetMask().Height) {
+                var otherPos = obj.GetPosition();
+                var otherCenter = obj.GetSpriteIndex().Origin;
+                var otherMask = obj.GetMask();
+
+                var otherRelativeMask = new IntRect(
+                    (int) (otherPos.X - otherCenter.X + otherMask.Left),
+                    (int) (otherPos.Y - otherCenter.Y + otherMask.Top),
+                    otherMask.Width, otherMask.Height
+                );
+
+                if(intersect(relativeMask, otherRelativeMask)) {
                     return true;
                 }
             }
 
             return false;
+        }
+
+        public static GameObject[] FindGameObjectsByTag(string tag, Room room) {
+            var taggedObjects = new List<GameObject>();
+
+            GameObject[] objs = room.GetGameObjects();
+            foreach(var gameObj in objs) {
+                if(gameObj.GetTag() == tag) {
+                    taggedObjects.Add(gameObj);
+                }
+            }
+
+            return taggedObjects.ToArray();
         }
     }
 }

@@ -36,7 +36,7 @@ namespace engine {
             box.Update(0);
         }
 
-        public string GetTag() => "msg-box";
+        public string GetTag() => "block";
         public int GetDepth() => int.MinValue;
 
         public void Init() {}
@@ -58,11 +58,11 @@ namespace engine {
         }
 
         public Vector2f GetPosition() => pos;
+        public IntRect GetMask() => box.CollisionMask;
+        public GameSprite GetSpriteIndex() => box;
 
         public Vector2f GetVelocity() => new Vector2f(0, 0);
         public Vector2f GetAcceleration() => new Vector2f(0, 0);
-        public IntRect GetMask() => new IntRect(0, 0, 0, 0);
-        public GameSprite GetSpriteIndex() => Sprites.getInstance().Empty;
         public void SetPosition(Vector2f pos) {}
         public void SetVelocity(Vector2f vel) {}
         public void SetAcceleration(Vector2f acc) {}
@@ -162,7 +162,7 @@ namespace engine {
             vel = new Vector2f(0, 0);
             acc = new Vector2f(0, 0);
 
-            moveSpeed = 512;
+            moveSpeed = 256;
             facingLeft = false;
         }
 
@@ -219,6 +219,16 @@ namespace engine {
                 } else {
                     spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
                 }
+            }
+
+            var blocks = Engine.FindGameObjectsByTag("block", room);
+            if(Engine.IsPlaceMeeting(new Vector2f(pos.X + vel.X * 2 * deltaTime, pos.Y - 1), this, blocks)
+                    && Engine.IsPlaceMeeting(new Vector2f(pos.X + vel.X * 2 * deltaTime, pos.Y + 1), this, blocks)) {
+                vel.X = 0;
+            }
+            if(Engine.IsPlaceMeeting(new Vector2f(pos.X - 1, pos.Y + vel.Y * 2 * deltaTime), this, blocks)
+                    && Engine.IsPlaceMeeting(new Vector2f(pos.X + 1, pos.Y + vel.Y * 2 * deltaTime), this, blocks)) {
+                vel.Y = 0;
             }
 
             spriteIndex.Position = pos;

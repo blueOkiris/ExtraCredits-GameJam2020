@@ -9,6 +9,7 @@ namespace engine {
         public readonly List<RectangleShape> Images;
         public IntRect CollisionMask;
         public Vector2f Position;
+        public Vector2f Origin;
         public float ImageSpeed;
         public float ImageIndex;
 
@@ -34,6 +35,7 @@ namespace engine {
             ImageSpeed = original.ImageSpeed;
             ImageIndex = 0;
             drawShape = Images[0];
+            Origin = drawShape.Origin;
         }
 
         public GameSprite(List<RectangleShape> images, Vector2f center, IntRect collisionMask, float imageSpeed) {
@@ -48,6 +50,7 @@ namespace engine {
             Position = new Vector2f(0, 0);
             ImageIndex = 0;
             drawShape = Images[0];
+            Origin = drawShape.Origin;
         }
         
         public void Update(float deltaTime) {
@@ -64,6 +67,7 @@ namespace engine {
             }
 
             drawShape.Position = Position;
+            Origin = drawShape.Origin;
         }
 
         public void Draw(RenderTarget target, RenderStates states) {
@@ -138,9 +142,9 @@ namespace engine {
                         new Vector2f(64, 96)
                     }
                 ),
-                new Vector2f(32, 48),
+                new Vector2f(31, 47),
                 new IntRect(0, 0, 64, 96),
-                16
+                8
             );
             PlayerWalkLeft = new GameSprite(
                 GameSprite.GetImagesFromTexture(
@@ -158,9 +162,9 @@ namespace engine {
                         new Vector2f(64, 96)
                     }
                 ),
-                new Vector2f(32, 48),
+                new Vector2f(31, 47),
                 new IntRect(0, 0, 64, 96),
-                16
+                8
             );
             PlayerStandRight = new GameSprite(
                 GameSprite.GetImagesFromTexture(
@@ -172,7 +176,7 @@ namespace engine {
                         new Vector2f(64, 96),
                     }
                 ),
-                new Vector2f(32, 48),
+                new Vector2f(31, 47),
                 new IntRect(0, 0, 64, 96),
                 0
             );
@@ -186,7 +190,7 @@ namespace engine {
                         new Vector2f(64, 96),
                     }
                 ),
-                new Vector2f(32, 48),
+                new Vector2f(31, 47),
                 new IntRect(0, 0, 64, 96),
                 0
             );
@@ -203,7 +207,7 @@ namespace engine {
                     }
                 ),
                 new Vector2f(32, 32),
-                new IntRect(0, 0, 32, 32),
+                new IntRect(0, 0, 64, 64),
                 0
             );
         }
