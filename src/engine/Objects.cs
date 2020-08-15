@@ -167,8 +167,8 @@ namespace engine {
             spriteIndex.Position = pos;
             spriteIndex.Update(0);
 
-            gravity = 8000;
-            jumpSpeed = 2000;
+            gravity = 8400;
+            jumpSpeed = 2100;
             canJump = false;
 
             vel = new Vector2f(0, 0);
@@ -217,8 +217,7 @@ namespace engine {
 
             var blocks = Engine.FindGameObjectsByTag("block", room);
 
-            if(Engine.IsPlaceMeeting(new Vector2f(pos.X + vel.X * deltaTime, pos.Y + 2), this, blocks)
-                    && Engine.IsPlaceMeeting(new Vector2f(pos.X + vel.X * deltaTime, pos.Y - 2), this, blocks)) {
+            if(Engine.IsPlaceMeeting(new Vector2f(pos.X + vel.X * deltaTime, pos.Y), this, blocks)) {
                 while(!Engine.IsPlaceMeeting(new Vector2f(pos.X, pos.Y), this, blocks)) {
                     pos.X += Math.Sign(vel.X);
                 }
@@ -235,7 +234,10 @@ namespace engine {
                 
                 vel.Y = 0;
                 acc.Y = 0;
-                canJump = true;
+
+                if(!keys.Jump) {
+                    canJump = true;
+                }
             } else {
                 acc.Y = gravity;
             }

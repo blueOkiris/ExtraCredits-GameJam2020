@@ -38,46 +38,163 @@ namespace engine {
             var gameObjList = new List<GameObject>() {
                 new MessageBox("Hello, world!", "hworld"),
                 new MessageBox("Game Paused", "pause"),
-                new TestPlayer(new Vector2f(512, 512)),
-                new Block(
-                    new Vector2f(256, 256),
-                    TileOrientation.Solid,
-                    Sprites.getInstance().GrassTiles
-                )
+                new TestPlayer(new Vector2f(512, 512))
             };
 
-            for(int i = 0; i < size.X / 128; i++) {
-                gameObjList.Add(
-                    new Block(
-                        new Vector2f(i * 128 + 64, 64),
-                        TileOrientation.Solid,
-                        Sprites.getInstance().GrassTiles
-                    )
-                );
-                gameObjList.Add(
-                    new Block(
-                        new Vector2f(i * 128 + 64, size.Y - 64),
-                        TileOrientation.Solid,
-                        Sprites.getInstance().GrassTiles
-                    )
-                );
-            }
-            for(int i = 0; i < size.Y / 128; i++) {
+            for(int i = 0; i < size.Y / 128 - 2; i++) {
                 gameObjList.Add(
                     new Block(
                         new Vector2f(64, i * 128 + 64),
-                        TileOrientation.Solid,
+                        TileOrientation.Right,
                         Sprites.getInstance().GrassTiles
                     )
                 );
                 gameObjList.Add(
                     new Block(
                         new Vector2f(size.X - 64, i * 128 + 64),
-                        TileOrientation.Solid,
+                        TileOrientation.Left,
                         Sprites.getInstance().GrassTiles
                     )
                 );
             }
+
+            for(int i = 1; i < size.X / 128 - 1; i++) {
+                gameObjList.Add(
+                    new Block(
+                        new Vector2f(i * 128 + 64, size.Y - 2 * 128 + 64),
+                        TileOrientation.Top,
+                        Sprites.getInstance().GrassTiles
+                    )
+                );
+                gameObjList.Add(
+                    new Block(
+                        new Vector2f(i * 128 + 64, size.Y - 128 + 64),
+                        TileOrientation.Center,
+                        Sprites.getInstance().GrassTiles
+                    )
+                );
+            }
+
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(64, size.Y - 128 + 64),
+                    TileOrientation.Center,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(128, size.Y - 128 + 64),
+                    TileOrientation.Center,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(size.X - 64, size.Y - 128 + 64),
+                    TileOrientation.Center,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(size.X - 128, size.Y - 128 + 64),
+                    TileOrientation.Center,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(64, size.Y - 2 * 128 + 64),
+                    TileOrientation.InnerTopRight,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(size.X - 64, size.Y - 2 * 128 + 64),
+                    TileOrientation.InnerTopLeft,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(6 * 128 + 64, size.Y - 3 * 128 + 64),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(7 * 128 + 64, size.Y - 3 * 128 + 64),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(8 * 128 + 64, size.Y - 3 * 128 + 64),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(7 * 128 + 64, size.Y - 4 * 128 + 64),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(8 * 128 + 64, size.Y - 4 * 128 + 64),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(8 * 128 + 64, size.Y - 5 * 128 + 64),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(12 * 128 + 64, size.Y - 4 * 128 + 64),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(14 * 128 + 64, size.Y - 6 * 128 + 64),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(9 * 128 + 64, size.Y - 7 * 128 + 64),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(10 * 128 + 64, size.Y - 7 * 128 + 64),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
+            gameObjList.Add(
+                new Block(
+                    new Vector2f(11 * 128 + 64, size.Y - 7 * 128 + 64),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
+            );
 
             gameObjects = gameObjList.ToArray();
             Array.Sort(gameObjects);

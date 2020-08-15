@@ -26,6 +26,6 @@ $(OBJNAME) : $(SRCFILES)
 clean :
 	rm -rf bin
 	rm -rf obj
-	rm -rf $(OBJFLDR)
+	rm -rf $(OBJNAME)
 	rm -rf /var/tmp/.net
 
