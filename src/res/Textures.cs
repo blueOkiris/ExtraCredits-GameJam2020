@@ -91,6 +91,27 @@ namespace engine {
         }
     }
 
+    enum TileOrientation {
+        Solid,
+        Center,
+        Top,
+        Left,
+        Right,
+        Bottom,
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight,
+        TopSingle,
+        LeftSingle,
+        RightSingle,
+        BottomSingle,
+        InnerBottomRight,
+        InnerBottomLeft,
+        InnerTopRight,
+        InnerTopLeft
+    }
+
     class Sprites {
         private static Sprites instance = null;
         
@@ -104,13 +125,14 @@ namespace engine {
 
         public readonly Texture Blank;
         public readonly Texture PlayerWalkTex;
-        public readonly Texture SimpleGrassBlockTex;
+        public readonly Texture GrassTileSetTex;
+
         public readonly GameSprite Empty;
         public readonly GameSprite PlayerWalkRight, PlayerWalkLeft;
         public readonly GameSprite PlayerStandRight, PlayerStandLeft;
         public readonly GameSprite PlayerJumpRight, PlayerJumpLeft;
         public readonly GameSprite PlayerFallRight, PlayerFallLeft;
-        public readonly GameSprite SimpleGrassBlock;
+        public readonly Dictionary<TileOrientation, GameSprite> GrassTiles;
 
         private Sprites() {
             Blank = new Texture("img/blank.png");
@@ -253,21 +275,26 @@ namespace engine {
                 0
             );
 
-            SimpleGrassBlockTex = new Texture("img/simple-dirt.png");
-            SimpleGrassBlock = new GameSprite(
-                GameSprite.GetImagesFromTexture(
-                    SimpleGrassBlockTex,
-                    new IntRect[] {
-                        new IntRect(1, 1, 32, 32)
-                    },
-                    new Vector2f[] {
-                        new Vector2f(128, 128)
-                    }
-                ),
-                new Vector2f(64, 64),
-                new IntRect(0, 0, 128, 128),
-                0
-            );
+            GrassTileSetTex = new Texture("img/simple-dirt.png");
+            GrassTiles = new Dictionary<TileOrientation, GameSprite>() {
+                { 
+                    TileOrientation.Solid, 
+                        new GameSprite(
+                        GameSprite.GetImagesFromTexture(
+                            GrassTileSetTex,
+                            new IntRect[] {
+                                new IntRect(1, 1, 32, 32)
+                            },
+                            new Vector2f[] {
+                                new Vector2f(128, 128)
+                            }
+                        ),
+                        new Vector2f(64, 64),
+                        new IntRect(0, 0, 128, 128),
+                        0
+                    )
+                }
+            };
         }
     }
 }

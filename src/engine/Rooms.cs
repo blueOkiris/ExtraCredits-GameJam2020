@@ -39,16 +39,44 @@ namespace engine {
                 new MessageBox("Hello, world!", "hworld"),
                 new MessageBox("Game Paused", "pause"),
                 new TestPlayer(new Vector2f(512, 512)),
-                new SimpleBlock(new Vector2f(256, 256))
+                new Block(
+                    new Vector2f(256, 256),
+                    TileOrientation.Solid,
+                    Sprites.getInstance().GrassTiles
+                )
             };
 
             for(int i = 0; i < size.X / 128; i++) {
-                gameObjList.Add(new SimpleBlock(new Vector2f(i * 128 + 64, 64)));
-                gameObjList.Add(new SimpleBlock(new Vector2f(i * 128 + 64, size.Y - 64)));
+                gameObjList.Add(
+                    new Block(
+                        new Vector2f(i * 128 + 64, 64),
+                        TileOrientation.Solid,
+                        Sprites.getInstance().GrassTiles
+                    )
+                );
+                gameObjList.Add(
+                    new Block(
+                        new Vector2f(i * 128 + 64, size.Y - 64),
+                        TileOrientation.Solid,
+                        Sprites.getInstance().GrassTiles
+                    )
+                );
             }
             for(int i = 0; i < size.Y / 128; i++) {
-                gameObjList.Add(new SimpleBlock(new Vector2f(64, i * 128 + 64)));
-                gameObjList.Add(new SimpleBlock(new Vector2f(size.X - 64, i * 128 + 64)));
+                gameObjList.Add(
+                    new Block(
+                        new Vector2f(64, i * 128 + 64),
+                        TileOrientation.Solid,
+                        Sprites.getInstance().GrassTiles
+                    )
+                );
+                gameObjList.Add(
+                    new Block(
+                        new Vector2f(size.X - 64, i * 128 + 64),
+                        TileOrientation.Solid,
+                        Sprites.getInstance().GrassTiles
+                    )
+                );
             }
 
             gameObjects = gameObjList.ToArray();

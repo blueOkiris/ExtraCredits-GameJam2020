@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
 
@@ -25,13 +26,16 @@ namespace engine {
         bool ShouldCull(Room room);
     }
 
-    class SimpleBlock : GameObject {
+    class Block : GameObject {
         private Vector2f pos;
         private GameSprite box;
 
-        public SimpleBlock(Vector2f position) {
+        public Block(
+                Vector2f position,
+                TileOrientation orientation,
+                Dictionary<TileOrientation, GameSprite> tileSet) {
             pos = position;
-            box = new GameSprite(Sprites.getInstance().SimpleGrassBlock);
+            box = new GameSprite(tileSet[orientation]);
             box.Position = position;
             box.Update(0);
         }
