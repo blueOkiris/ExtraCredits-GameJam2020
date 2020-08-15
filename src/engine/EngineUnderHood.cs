@@ -35,8 +35,6 @@ namespace engine {
 
         private RenderWindow window;
         private KeyState keys;
-        private Thread keyPressedThread;
-        private Thread keyReleasedThread;
         private Thread updateThread;
 
         private Engine() {
@@ -55,22 +53,8 @@ namespace engine {
                 Styles.Fullscreen | Styles.Close
             );
             window.Closed += (object sender, EventArgs e) => (sender as RenderWindow).Close();
-            window.KeyPressed += (object sender, KeyEventArgs e) => {
-                if(keyPressedThread != null && keyPressedThread.IsAlive) {
-                    keyPressedThread.Join();
-                }
-
-                keyPressedThread = new Thread(new ParameterizedThreadStart(keyPressed));
-                keyPressedThread.Start(e);
-            };
-            window.KeyReleased += (object sender, KeyEventArgs e) => {
-                if(keyReleasedThread != null && keyReleasedThread.IsAlive) {
-                    keyReleasedThread.Join();
-                }
-
-                keyReleasedThread = new Thread(new ParameterizedThreadStart(keyReleased));
-                keyReleasedThread.Start(e);
-            };
+            window.KeyPressed += (object sender, KeyEventArgs e) => keyPressed(e);
+            window.KeyReleased += (object sender, KeyEventArgs e) => keyReleased(e);
 
             init();
             updateThread.Start();
