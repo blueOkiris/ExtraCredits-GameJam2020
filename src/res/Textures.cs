@@ -200,7 +200,7 @@ namespace engine {
                 GameSprite.GetImagesFromTexture(
                     SimpleGrassBlockTex,
                     new IntRect[] {
-                        new IntRect(0, 0, 64, 64)
+                        new IntRect(0, 0, 32, 32)
                     },
                     new Vector2f[] {
                         new Vector2f(128, 128)
