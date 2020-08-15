@@ -3,7 +3,7 @@ using SFML.Graphics;
 using SFML.System;
 
 namespace engine {
-    interface GameObject : Drawable {
+    interface GameObject : Drawable, IComparable {
         Vector2f GetAcceleration();
         Vector2f GetVelocity();
         Vector2f GetPosition();
@@ -17,6 +17,7 @@ namespace engine {
         void SetMask(IntRect mask);
 
         string GetTag();
+        int GetDepth();
 
         void Init();
         void Update(float deltaTime, KeyState keys, Room room);
@@ -54,6 +55,7 @@ namespace engine {
         }
 
         public string GetTag() => "msg-box";
+        public int GetDepth() => int.MaxValue;
 
         public void Init() {}
 
@@ -85,6 +87,10 @@ namespace engine {
         public void SetAcceleration(Vector2f acc) {}
         public void SetSpriteIndex(GameSprite spr) {}
         public void SetMask(IntRect mask) {}
+
+        public int CompareTo(object obj) {
+            return GetDepth().CompareTo((obj as GameObject).GetDepth());
+        }
     }
 
     class TestPlayer : GameObject {
@@ -97,6 +103,7 @@ namespace engine {
         private bool facingLeft;
 
         public string GetTag() => "player";
+        public int GetDepth() => 1;
 
         public TestPlayer(Vector2f defaultPos) {
             spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
@@ -185,5 +192,9 @@ namespace engine {
         public IntRect GetMask() => spriteIndex.CollisionMask;
         public void SetSpriteIndex(GameSprite spr) => this.spriteIndex = spr;
         public void SetMask(IntRect mask) {}
+
+        public int CompareTo(object obj) {
+            return GetDepth().CompareTo((obj as GameObject).GetDepth());
+        }
     }
 }

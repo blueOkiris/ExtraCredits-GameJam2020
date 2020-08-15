@@ -32,9 +32,10 @@ namespace engine {
             );
 
             gameObjects = new GameObject[] {
-                new TestPlayer(new Vector2f(512, 512)),
-                new MessageBox("Hello, world!")
+                new MessageBox("Hello, world!"),
+                new TestPlayer(new Vector2f(512, 512))
             };
+            Array.Sort(gameObjects);
         }
 
         public Room ChangeIfShould() {
