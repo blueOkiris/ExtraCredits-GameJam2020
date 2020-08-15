@@ -1,3 +1,4 @@
+using System;
 using SFML.Graphics;
 using SFML.System;
 
@@ -6,14 +7,20 @@ namespace engine {
         GameObject[] GetGameObjects();
         void Init();
         void Update(float deltaTime, KeyState keys);
+        Vector2u GetSize();
+        Vector2u GetViewPosition();
         Room ChangeIfShould();
     }
 
     class TestRoom : Room
     {
         private GameObject[] gameObjects;
+        private Vector2u size;
+        private Vector2u view;
 
         public TestRoom() {
+            size = new Vector2u(2560, 1080);
+            view = new Vector2u(0, 0);
             gameObjects = new GameObject[] {
                 new Player(new Vector2f(512, 512))
             };
@@ -42,7 +49,7 @@ namespace engine {
                     vel.X + acc.X * deltaTime, vel.Y + acc.Y * deltaTime)
                 );
 
-                gameObject.Update(deltaTime, keys);
+                gameObject.Update(deltaTime, keys, this);
             }
         }
 
@@ -50,13 +57,15 @@ namespace engine {
             foreach(var gameObject in gameObjects) {
                 var pos = gameObject.GetPosition();
 
-                if(pos.X > -Settings.ScreenSize.X * 0.5f && pos.X <= Settings.ScreenSize.X * 1.5f
-                        && pos.Y > -Settings.ScreenSize.Y * 0.5f && pos.Y <= Settings.ScreenSize.Y * 1.5f) {
+                if(pos.X >= (int) view.X - 64 && pos.X <= view.X + Settings.ScreenSize.X + 64
+                        && pos.Y >= (int) view.Y - 64 && pos.Y <= view.Y + Settings.ScreenSize.Y + 64) {
                     target.Draw(gameObject);
                 }
             }
         }
 
         public GameObject[] GetGameObjects() => gameObjects;
+        public Vector2u GetSize() => size;
+        public Vector2u GetViewPosition() => view;
     }
 }

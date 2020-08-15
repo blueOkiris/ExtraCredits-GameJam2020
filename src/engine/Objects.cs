@@ -17,7 +17,7 @@ namespace engine {
         void SetMask(IntRect mask);
 
         void Init();
-        void Update(float deltaTime, KeyState keys);
+        void Update(float deltaTime, KeyState keys, Room room);
     }
 
     class Player : GameObject
@@ -43,7 +43,7 @@ namespace engine {
             
         }
 
-        public void Update(float deltaTime, KeyState keys) {
+        public void Update(float deltaTime, KeyState keys, Room room) {
             spriteIndex.Position = pos;
             spriteIndex.Update(deltaTime);
 
@@ -52,7 +52,7 @@ namespace engine {
                     vel.X = -moveSpeed;
                     spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkLeft);
                 }
-            } else if(keys.Right && pos.X < Settings.ScreenSize.X) {
+            } else if(keys.Right && pos.X < room.GetSize().X) {
                 if(vel.X != moveSpeed) {
                     vel.X = moveSpeed;
                     spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
