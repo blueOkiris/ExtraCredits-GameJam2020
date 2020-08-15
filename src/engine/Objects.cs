@@ -61,7 +61,6 @@ namespace engine {
                     vel.X = moveSpeed;
                     spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
                 }
-                Console.WriteLine("Position: (" + pos.X + ", " + pos.Y + ")");
             } else {
                 if(vel.X > 0) {
                     spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
