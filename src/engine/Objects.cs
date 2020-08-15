@@ -167,8 +167,8 @@ namespace engine {
             spriteIndex.Position = pos;
             spriteIndex.Update(0);
 
-            gravity = 8400;
-            jumpSpeed = 2100;
+            gravity = 8500;
+            jumpSpeed = 2200;
             canJump = false;
 
             vel = new Vector2f(0, 0);

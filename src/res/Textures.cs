@@ -89,27 +89,62 @@ namespace engine {
 
             return images;
         }
+
+        public static Dictionary<TileOrientation, GameSprite> CreateTileSet(
+                Texture tex, Vector2i boundSize, Vector2i actualSize) {
+            var tiles = new Dictionary<TileOrientation, GameSprite>();
+
+            for(int y = 0; y < 5; y++) {
+                for(int x = 0; x < 4; x++) {
+                    var orientation = (TileOrientation) (y * 4 + x);
+
+                    tiles.Add(
+                        orientation,
+                        new GameSprite(
+                            GameSprite.GetImagesFromTexture(
+                                tex,
+                                new IntRect[] {
+                                    new IntRect(
+                                        (boundSize.X + 2) * x + 1, (boundSize.Y + 2) * y + 1, 
+                                        boundSize.X, boundSize.Y)
+                                },
+                                new Vector2f[] {
+                                    new Vector2f(actualSize.X, actualSize.Y)
+                                }
+                            ),
+                            new Vector2f(actualSize.X / 2, actualSize.Y / 2),
+                            new IntRect(0, 0, actualSize.X, actualSize.Y),
+                            0
+                        )
+                    );
+                }
+            }
+
+            return tiles;
+        }
     }
 
     enum TileOrientation {
-        Solid,
-        Center,
-        Top,
-        Left,
-        Right,
-        Bottom,
-        TopLeft,
-        TopRight,
-        BottomLeft,
-        BottomRight,
-        TopSingle,
-        LeftSingle,
-        RightSingle,
-        BottomSingle,
-        InnerBottomRight,
-        InnerBottomLeft,
-        InnerTopRight,
-        InnerTopLeft
+        Solid = 0,
+        Center = 1,
+        Null1 = 2,
+        Null2 = 3,
+        Top = 4,
+        Left = 12,
+        Right = 8,
+        Bottom = 16,
+        TopLeft = 5,
+        TopRight = 6,
+        BottomLeft = 9,
+        BottomRight = 10,
+        TopSingle = 19,
+        LeftSingle = 15,
+        RightSingle = 7,
+        BottomSingle = 11,
+        InnerBottomRight = 13,
+        InnerBottomLeft = 14,
+        InnerTopRight = 17,
+        InnerTopLeft = 18
     }
 
     class Sprites {
@@ -168,7 +203,7 @@ namespace engine {
                 ),
                 new Vector2f(64, 64),
                 new IntRect(0, 0, 128, 128),
-                16
+                20
             );
             PlayerWalkLeft = new GameSprite(
                 GameSprite.GetImagesFromTexture(
@@ -188,7 +223,7 @@ namespace engine {
                 ),
                 new Vector2f(64, 64),
                 new IntRect(0, 0, 128, 128),
-                16
+                20
             );
             PlayerStandRight = new GameSprite(
                 GameSprite.GetImagesFromTexture(
@@ -276,169 +311,7 @@ namespace engine {
             );
 
             GrassTileSetTex = new Texture("img/simple-dirt.png");
-            GrassTiles = new Dictionary<TileOrientation, GameSprite>() {
-                { 
-                    TileOrientation.Solid, 
-                    new GameSprite(
-                        GameSprite.GetImagesFromTexture(
-                            GrassTileSetTex,
-                            new IntRect[] {
-                                new IntRect(1, 1, 32, 32)
-                            },
-                            new Vector2f[] {
-                                new Vector2f(128, 128)
-                            }
-                        ),
-                        new Vector2f(64, 64),
-                        new IntRect(0, 0, 128, 128),
-                        0
-                    )
-                }, { 
-                    TileOrientation.Center, 
-                    new GameSprite(
-                        GameSprite.GetImagesFromTexture(
-                            GrassTileSetTex,
-                            new IntRect[] {
-                                new IntRect(35, 1, 32, 32)
-                            },
-                            new Vector2f[] {
-                                new Vector2f(128, 128)
-                            }
-                        ),
-                        new Vector2f(64, 64),
-                        new IntRect(0, 0, 128, 128),
-                        0
-                    )
-                }, { 
-                    TileOrientation.Top, 
-                    new GameSprite(
-                        GameSprite.GetImagesFromTexture(
-                            GrassTileSetTex,
-                            new IntRect[] {
-                                new IntRect(1, 35, 32, 32)
-                            },
-                            new Vector2f[] {
-                                new Vector2f(128, 128)
-                            }
-                        ),
-                        new Vector2f(64, 64),
-                        new IntRect(0, 0, 128, 128),
-                        0
-                    )
-                }, { 
-                    TileOrientation.Right, 
-                    new GameSprite(
-                        GameSprite.GetImagesFromTexture(
-                            GrassTileSetTex,
-                            new IntRect[] {
-                                new IntRect(1, 69, 32, 32)
-                            },
-                            new Vector2f[] {
-                                new Vector2f(128, 128)
-                            }
-                        ),
-                        new Vector2f(64, 64),
-                        new IntRect(0, 0, 128, 128),
-                        0
-                    )
-                }, { 
-                    TileOrientation.Left, 
-                    new GameSprite(
-                        GameSprite.GetImagesFromTexture(
-                            GrassTileSetTex,
-                            new IntRect[] {
-                                new IntRect(1, 103, 32, 32)
-                            },
-                            new Vector2f[] {
-                                new Vector2f(128, 128)
-                            }
-                        ),
-                        new Vector2f(64, 64),
-                        new IntRect(0, 0, 128, 128),
-                        0
-                    )
-                }, { 
-                    TileOrientation.Bottom, 
-                    new GameSprite(
-                        GameSprite.GetImagesFromTexture(
-                            GrassTileSetTex,
-                            new IntRect[] {
-                                new IntRect(1, 137, 32, 32)
-                            },
-                            new Vector2f[] {
-                                new Vector2f(128, 128)
-                            }
-                        ),
-                        new Vector2f(64, 64),
-                        new IntRect(0, 0, 128, 128),
-                        0
-                    )
-                }, { 
-                    TileOrientation.InnerBottomRight,
-                    new GameSprite(
-                        GameSprite.GetImagesFromTexture(
-                            GrassTileSetTex,
-                            new IntRect[] {
-                                new IntRect(35, 103, 32, 32)
-                            },
-                            new Vector2f[] {
-                                new Vector2f(128, 128)
-                            }
-                        ),
-                        new Vector2f(64, 64),
-                        new IntRect(0, 0, 128, 128),
-                        0
-                    )
-                }, { 
-                    TileOrientation.InnerBottomLeft,
-                    new GameSprite(
-                        GameSprite.GetImagesFromTexture(
-                            GrassTileSetTex,
-                            new IntRect[] {
-                                new IntRect(69, 103, 32, 32)
-                            },
-                            new Vector2f[] {
-                                new Vector2f(128, 128)
-                            }
-                        ),
-                        new Vector2f(64, 64),
-                        new IntRect(0, 0, 128, 128),
-                        0
-                    )
-                }, { 
-                    TileOrientation.InnerTopRight,
-                    new GameSprite(
-                        GameSprite.GetImagesFromTexture(
-                            GrassTileSetTex,
-                            new IntRect[] {
-                                new IntRect(35, 137, 32, 32)
-                            },
-                            new Vector2f[] {
-                                new Vector2f(128, 128)
-                            }
-                        ),
-                        new Vector2f(64, 64),
-                        new IntRect(0, 0, 128, 128),
-                        0
-                    )
-                }, { 
-                    TileOrientation.InnerTopLeft,
-                    new GameSprite(
-                        GameSprite.GetImagesFromTexture(
-                            GrassTileSetTex,
-                            new IntRect[] {
-                                new IntRect(69, 137, 32, 32)
-                            },
-                            new Vector2f[] {
-                                new Vector2f(128, 128)
-                            }
-                        ),
-                        new Vector2f(64, 64),
-                        new IntRect(0, 0, 128, 128),
-                        0
-                    )
-                }
-            };
+            GrassTiles = GameSprite.CreateTileSet(GrassTileSetTex, new Vector2i(32, 32), new Vector2i(128, 128));
         }
     }
 }
