@@ -22,7 +22,7 @@ namespace engine {
         void Update(float deltaTime, KeyState keys, Room room);
     }
 
-    class Player : GameObject
+    class TestPlayer : GameObject
     {
         private Vector2f acc;
         private Vector2f vel;
@@ -30,10 +30,11 @@ namespace engine {
 
         private GameSprite spriteIndex;
         private float moveSpeed;
+        private bool facingLeft;
 
         public string GetTag() => "player";
 
-        public Player(Vector2f defaultPos) {
+        public TestPlayer(Vector2f defaultPos) {
             spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
             pos = defaultPos;
 
@@ -41,6 +42,7 @@ namespace engine {
             acc = new Vector2f(0, 0);
 
             moveSpeed = 512;
+            facingLeft = false;
         }
 
         public void Init() {
@@ -50,24 +52,55 @@ namespace engine {
         public void Update(float deltaTime, KeyState keys, Room room) {
             spriteIndex.Position = pos;
             spriteIndex.Update(deltaTime);
+            
+            if(keys.Up && pos.Y > 0) {
+                if(vel.Y != -moveSpeed) {
+                    vel.Y = -moveSpeed;
+
+                    if(facingLeft) {
+                        spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkLeft);
+                    } else {
+                        spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
+                    }
+                }
+            } else if(keys.Down && pos.Y < room.GetSize().Y) {
+                if(vel.Y != moveSpeed) {
+                    vel.Y = moveSpeed;
+
+                    if(facingLeft) {
+                        spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkLeft);
+                    } else {
+                        spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
+                    }
+                }
+            } else {
+                vel.Y = 0;
+            }
 
             if(keys.Left && pos.X > 0) {
                 if(vel.X != -moveSpeed) {
                     vel.X = -moveSpeed;
                     spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkLeft);
                 }
+
+                facingLeft = true;
             } else if(keys.Right && pos.X < room.GetSize().X) {
                 if(vel.X != moveSpeed) {
                     vel.X = moveSpeed;
                     spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
                 }
+                
+                facingLeft = false;
             } else {
-                if(vel.X > 0) {
-                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
-                } else if(vel.X < 0) {
-                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandLeft);
-                }
                 vel.X = 0;
+            }
+
+            if(vel.X == 0 && vel.Y == 0) {
+                if(facingLeft) {
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandLeft);
+                } else {
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
+                }
             }
         }
 

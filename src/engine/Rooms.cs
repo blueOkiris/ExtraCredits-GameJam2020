@@ -19,10 +19,10 @@ namespace engine {
         private Vector2u view;
 
         public TestRoom() {
-            size = new Vector2u(2560, 1080);
+            size = new Vector2u(2560, 1280);
             view = new Vector2u(0, 0);
             gameObjects = new GameObject[] {
-                new Player(new Vector2f(512, 512))
+                new TestPlayer(new Vector2f(512, 512))
             };
         }
 
@@ -59,13 +59,21 @@ namespace engine {
 
                 if(gameObject.GetTag() == "player") {
                     var viewX = (int) pos.X - Settings.ScreenSize.X / 2;
+                    var viewY = (int) pos.Y - Settings.ScreenSize.Y / 2;
 
                     if(viewX < 0) {
                         viewX = 0;
                     } else if(viewX + Settings.ScreenSize.X > size.X) {
                         viewX = size.X - Settings.ScreenSize.X;
                     }
+                    if(viewY < 0) {
+                        viewY = 0;
+                    } else if(viewY + Settings.ScreenSize.Y > size.Y) {
+                        viewY = size.Y - Settings.ScreenSize.Y;
+                    }
+                    
                     view.X = (uint) viewX;
+                    view.Y = (uint) viewY;
                 }
 
                 if(pos.X >= (int) view.X - 64 && pos.X <= view.X + Settings.ScreenSize.X + 64
