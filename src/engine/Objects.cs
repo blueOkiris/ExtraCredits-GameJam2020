@@ -96,8 +96,8 @@ namespace engine {
 
             box = new RectangleShape(
                 new Vector2f(
-                    Settings.ScreenSize.X * 0.75f,
-                    Settings.ScreenSize.Y * 0.75f
+                    Settings.ScreenSize.X * 0.4f,
+                    Settings.ScreenSize.Y * 0.5f
                 )
             );
             box.Origin = new Vector2f(
