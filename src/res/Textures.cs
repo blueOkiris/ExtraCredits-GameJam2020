@@ -60,11 +60,14 @@ namespace engine {
             target.Draw(drawShape);
         }
 
-        public static List<RectangleShape> GetImagesFromTexture(Texture tex, IntRect[] cuts) {
+        public static List<RectangleShape> GetImagesFromTexture(Texture tex, IntRect[] cuts, Vector2f[] sizes) {
             var images = new List<RectangleShape>();
 
-            foreach(var cut in cuts) {
-                var newImage = new RectangleShape(new Vector2f((float) cut.Width, (float) cut.Height));
+            for(int i = 0; i < cuts.Length; i++) {
+                var cut = cuts[i];
+                var size = sizes[i];
+
+                var newImage = new RectangleShape(size);
                 newImage.TextureRect = cut;
                 newImage.Texture = tex;
                 images.Add(newImage);
@@ -98,6 +101,12 @@ namespace engine {
                         new IntRect(78, 206, 32, 48),
                         new IntRect(15, 206, 32, 48),
                         new IntRect(269, 206, 32, 48)
+                    },
+                    new Vector2f[] {
+                        new Vector2f(64, 96),
+                        new Vector2f(64, 96),
+                        new Vector2f(64, 96),
+                        new Vector2f(64, 96)
                     }
                 ),
                 new Vector2f(16, 24),
