@@ -1,4 +1,4 @@
-OBJNAME :=       engine
+OBJNAME :=       game-engine
 PROJNAME :=      Game\ Jam
 TARGET_FRMWRK := netcoreapp3.1
 
