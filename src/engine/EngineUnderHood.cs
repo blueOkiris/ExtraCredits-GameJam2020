@@ -118,8 +118,8 @@ namespace engine {
             keys.Left = (keyEventArgs.Code == Keyboard.Key.Left || keyEventArgs.Code == Keyboard.Key.A) ? false : keys.Left;
             keys.Right = (keyEventArgs.Code == Keyboard.Key.Right || keyEventArgs.Code == Keyboard.Key.D) ? false : keys.Right;
             keys.Jump = keyEventArgs.Code == Keyboard.Key.Space ? false : keys.Jump;
-            keys.Fire1 = (keyEventArgs.Code == Keyboard.Key.LShift || keyEventArgs.Code == Keyboard.Key.Z) ? false : keys.Fire1;
-            keys.Fire2 = (keyEventArgs.Code == Keyboard.Key.LControl || keyEventArgs.Code == Keyboard.Key.X) ? false : keys.Fire2;
+            keys.Fire1 = (keyEventArgs.Code == Keyboard.Key.RShift || keyEventArgs.Code == Keyboard.Key.Z) ? false : keys.Fire1;
+            keys.Fire2 = (keyEventArgs.Code == Keyboard.Key.RControl || keyEventArgs.Code == Keyboard.Key.X) ? false : keys.Fire2;
             stateLock.ReleaseMutex();
         }
 
