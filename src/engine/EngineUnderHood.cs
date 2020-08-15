@@ -134,7 +134,7 @@ namespace engine {
 
             var relativeMask = new IntRect(
                 (int) (pos.X - center.X + mask.Left),
-                (int) (pos.Y - center.X + mask.Top),
+                (int) (pos.Y - center.Y + mask.Top),
                 mask.Width, mask.Height
             );
 

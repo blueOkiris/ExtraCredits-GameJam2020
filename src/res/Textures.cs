@@ -142,8 +142,8 @@ namespace engine {
                         new Vector2f(64, 96)
                     }
                 ),
-                new Vector2f(31, 47),
-                new IntRect(0, 0, 64, 96),
+                new Vector2f(32, 48),
+                new IntRect(8, 0, 48, 96),
                 8
             );
             PlayerWalkLeft = new GameSprite(
@@ -162,8 +162,8 @@ namespace engine {
                         new Vector2f(64, 96)
                     }
                 ),
-                new Vector2f(31, 47),
-                new IntRect(0, 0, 64, 96),
+                new Vector2f(32, 48),
+                new IntRect(8, 0, 48, 96),
                 8
             );
             PlayerStandRight = new GameSprite(
@@ -176,8 +176,8 @@ namespace engine {
                         new Vector2f(64, 96),
                     }
                 ),
-                new Vector2f(31, 47),
-                new IntRect(0, 0, 64, 96),
+                new Vector2f(32, 48),
+                new IntRect(8, 0, 48, 96),
                 0
             );
             PlayerStandLeft = new GameSprite(
@@ -190,8 +190,8 @@ namespace engine {
                         new Vector2f(64, 96),
                     }
                 ),
-                new Vector2f(31, 47),
-                new IntRect(0, 0, 64, 96),
+                new Vector2f(32, 48),
+                new IntRect(8, 0, 48, 96),
                 0
             );
 

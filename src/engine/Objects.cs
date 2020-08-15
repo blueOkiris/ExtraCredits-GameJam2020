@@ -164,7 +164,7 @@ namespace engine {
             vel = new Vector2f(0, 0);
             acc = new Vector2f(0, 0);
 
-            moveSpeed = 256;
+            moveSpeed = 512;
             facingLeft = false;
         }
 
@@ -224,12 +224,18 @@ namespace engine {
             }
 
             var blocks = Engine.FindGameObjectsByTag("block", room);
-            if(Engine.IsPlaceMeeting(new Vector2f(pos.X + vel.X * 2 * deltaTime, pos.Y - 1), this, blocks)
-                    && Engine.IsPlaceMeeting(new Vector2f(pos.X + vel.X * 2 * deltaTime, pos.Y + 1), this, blocks)) {
+            if(Engine.IsPlaceMeeting(new Vector2f(pos.X + vel.X * deltaTime, pos.Y), this, blocks)) {
+                while(!Engine.IsPlaceMeeting(new Vector2f(pos.X, pos.Y), this, blocks)) {
+                    pos.X += Math.Sign(vel.X);
+                }
+                pos.X -= Math.Sign(vel.X);
                 vel.X = 0;
             }
-            if(Engine.IsPlaceMeeting(new Vector2f(pos.X - 1, pos.Y + vel.Y * 2 * deltaTime), this, blocks)
-                    && Engine.IsPlaceMeeting(new Vector2f(pos.X + 1, pos.Y + vel.Y * 2 * deltaTime), this, blocks)) {
+            if(Engine.IsPlaceMeeting(new Vector2f(pos.X, pos.Y + vel.Y * deltaTime), this, blocks)) {
+                while(!Engine.IsPlaceMeeting(new Vector2f(pos.X, pos.Y), this, blocks)) {
+                    pos.Y += Math.Sign(vel.Y);
+                }
+                pos.Y -= Math.Sign(vel.Y);
                 vel.Y = 0;
             }
 

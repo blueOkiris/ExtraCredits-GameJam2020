@@ -17,7 +17,7 @@ else
     endif
 endif
 
-$(OBJFLDR)/$(OBJNAME) : $(SRCFILES)
+$(OBJNAME) : $(SRCFILES)
 	dotnet publish $(PROJNAME).csproj -f $(TARGET_FRMWRK) -p:PublishSingleFile=true -r $(RUNTIME)
 	cp bin/Debug/$(TARGET_FRMWRK)/$(RUNTIME)/publish/$(PROJNAME) ./$(OBJNAME)
 	chmod +x $(OBJNAME)
@@ -27,4 +27,5 @@ clean :
 	rm -rf bin
 	rm -rf obj
 	rm -rf $(OBJFLDR)
+	rm -rf /var/tmp/.net
 
