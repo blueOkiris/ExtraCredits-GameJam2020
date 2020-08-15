@@ -14,7 +14,9 @@ namespace engine {
 
         public static readonly Font DefaultFont = new Font("fonts/Ubuntu-R.ttf");
 
-        public static readonly Sound BgMusic = new Sound(new SoundBuffer("sound/bg-music.wav"));
-        public static readonly Sound PopSfx = new Sound(new SoundBuffer("sound/pop.wav"));
+        public static readonly SoundBuffer BgMusicFile = new SoundBuffer("sound/bg-music.wav");
+        public static readonly SoundBuffer PopSfxFile = new SoundBuffer("sound/pop.wav");
+        public static readonly Sound BgMusic = new Sound(BgMusicFile);
+        public static readonly Sound PopSfx = new Sound(PopSfxFile);
     }
 }
