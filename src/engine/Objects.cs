@@ -27,13 +27,16 @@ namespace engine {
         private Vector2f pos;
 
         private GameSprite spriteIndex;
+        private float moveSpeed;
 
         public Player(Vector2f defaultPos) {
             spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
             pos = defaultPos;
 
-            vel = new Vector2f(512, 0);
+            vel = new Vector2f(0, 0);
             acc = new Vector2f(0, 0);
+
+            moveSpeed = 512;
         }
 
         public void Init() {
@@ -44,8 +47,23 @@ namespace engine {
             spriteIndex.Position = pos;
             spriteIndex.Update(deltaTime);
 
-            if(pos.X > Settings.ScreenSize.X) {
-                pos.X = 0;
+            if(keys.Left && pos.X > 0) {
+                if(vel.X != -moveSpeed) {
+                    vel.X = -moveSpeed;
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkLeft);
+                }
+            } else if(keys.Right && pos.X < Settings.ScreenSize.X) {
+                if(vel.X != moveSpeed) {
+                    vel.X = moveSpeed;
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
+                }
+            } else {
+                if(vel.X > 0) {
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
+                } else if(vel.X < 0) {
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandLeft);
+                }
+                vel.X = 0;
             }
         }
 

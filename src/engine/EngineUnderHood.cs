@@ -42,9 +42,6 @@ namespace engine {
         private Engine() {
             keys = new KeyState();
 
-            keyPressedThread = new Thread(new ParameterizedThreadStart(keyPressed));
-            keyReleasedThread = new Thread(new ParameterizedThreadStart(keyReleased));
-
             updateThread = new Thread(new ThreadStart(updateLoop));
 
             windowThread = new Thread(new ThreadStart(renderLoop));
@@ -58,8 +55,22 @@ namespace engine {
                 Styles.Fullscreen | Styles.Close
             );
             window.Closed += (object sender, EventArgs e) => (sender as RenderWindow).Close();
-            window.KeyPressed += (object sender, KeyEventArgs e) => keyPressedThread.Start(e);
-            window.KeyReleased += (object sender, KeyEventArgs e) => keyReleasedThread.Start(e);
+            window.KeyPressed += (object sender, KeyEventArgs e) => {
+                if(keyPressedThread != null && keyPressedThread.IsAlive) {
+                    keyPressedThread.Join();
+                }
+
+                keyPressedThread = new Thread(new ParameterizedThreadStart(keyPressed));
+                keyPressedThread.Start(e);
+            };
+            window.KeyReleased += (object sender, KeyEventArgs e) => {
+                if(keyReleasedThread != null && keyReleasedThread.IsAlive) {
+                    keyReleasedThread.Join();
+                }
+
+                keyReleasedThread = new Thread(new ParameterizedThreadStart(keyReleased));
+                keyReleasedThread.Start(e);
+            };
 
             init();
             updateThread.Start();
@@ -99,6 +110,7 @@ namespace engine {
 
         private void keyPressed(object eventArgs) {
             var keyEventArgs = eventArgs as KeyEventArgs;
+            stateLock.WaitOne();
             keys.Quit = keyEventArgs.Code == Keyboard.Key.Escape ? true : keys.Quit;
             keys.Up = (keyEventArgs.Code == Keyboard.Key.Up || keyEventArgs.Code == Keyboard.Key.W) ? true : keys.Up;
             keys.Down = (keyEventArgs.Code == Keyboard.Key.Down || keyEventArgs.Code == Keyboard.Key.S) ? true : keys.Down;
@@ -107,10 +119,12 @@ namespace engine {
             keys.Jump = keyEventArgs.Code == Keyboard.Key.Space ? true : keys.Jump;
             keys.Fire1 = (keyEventArgs.Code == Keyboard.Key.LShift || keyEventArgs.Code == Keyboard.Key.Z) ? true : keys.Fire1;
             keys.Fire2 = (keyEventArgs.Code == Keyboard.Key.LControl || keyEventArgs.Code == Keyboard.Key.X) ? true : keys.Fire2;
+            stateLock.ReleaseMutex();
         }
 
         private void keyReleased(object eventArgs) {
             var keyEventArgs = eventArgs as KeyEventArgs;
+            stateLock.WaitOne();
             keys.Quit = keyEventArgs.Code == Keyboard.Key.Escape ? false : keys.Quit;
             keys.Up = (keyEventArgs.Code == Keyboard.Key.Up || keyEventArgs.Code == Keyboard.Key.W) ? false : keys.Up;
             keys.Down = (keyEventArgs.Code == Keyboard.Key.Down || keyEventArgs.Code == Keyboard.Key.S) ? false : keys.Down;
@@ -119,6 +133,7 @@ namespace engine {
             keys.Jump = keyEventArgs.Code == Keyboard.Key.Space ? false : keys.Jump;
             keys.Fire1 = (keyEventArgs.Code == Keyboard.Key.LShift || keyEventArgs.Code == Keyboard.Key.Z) ? false : keys.Fire1;
             keys.Fire2 = (keyEventArgs.Code == Keyboard.Key.LControl || keyEventArgs.Code == Keyboard.Key.X) ? false : keys.Fire2;
+            stateLock.ReleaseMutex();
         }
 
         public static bool IsPlaceMeeting(Vector2f pos, GameObject[] objects) {

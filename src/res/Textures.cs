@@ -88,14 +88,15 @@ namespace engine {
             return instance;
         }
 
-        public readonly Texture PlayerWalkRightTex;
-        public readonly GameSprite PlayerWalkRight;
+        public readonly Texture PlayerWalkTex;
+        public readonly GameSprite PlayerWalkRight, PlayerWalkLeft;
+        public readonly GameSprite PlayerStandRight, PlayerStandLeft;
 
         private Sprites() {
-            PlayerWalkRightTex = new Texture("img/basic-walk.png");
+            PlayerWalkTex = new Texture("img/basic-walk.png");
             PlayerWalkRight = new GameSprite(
                 GameSprite.GetImagesFromTexture(
-                    PlayerWalkRightTex,
+                    PlayerWalkTex,
                     new IntRect[] {
                         new IntRect(15, 206, 32, 48),
                         new IntRect(78, 206, 32, 48),
@@ -109,9 +110,57 @@ namespace engine {
                         new Vector2f(64, 96)
                     }
                 ),
-                new Vector2f(16, 24),
-                new IntRect(0, 0, 32, 48),
+                new Vector2f(32, 48),
+                new IntRect(0, 0, 64, 96),
                 16
+            );
+            PlayerWalkLeft = new GameSprite(
+                GameSprite.GetImagesFromTexture(
+                    PlayerWalkTex,
+                    new IntRect[] {
+                        new IntRect(15, 76, 32, 48),
+                        new IntRect(78, 76, 32, 48),
+                        new IntRect(15, 76, 32, 48),
+                        new IntRect(269, 76, 32, 48)
+                    },
+                    new Vector2f[] {
+                        new Vector2f(64, 96),
+                        new Vector2f(64, 96),
+                        new Vector2f(64, 96),
+                        new Vector2f(64, 96)
+                    }
+                ),
+                new Vector2f(32, 48),
+                new IntRect(0, 0, 64, 96),
+                16
+            );
+            PlayerStandRight = new GameSprite(
+                GameSprite.GetImagesFromTexture(
+                    PlayerWalkTex,
+                    new IntRect[] {
+                        new IntRect(15, 206, 32, 48),
+                    },
+                    new Vector2f[] {
+                        new Vector2f(64, 96),
+                    }
+                ),
+                new Vector2f(32, 48),
+                new IntRect(0, 0, 64, 96),
+                0
+            );
+            PlayerStandLeft = new GameSprite(
+                GameSprite.GetImagesFromTexture(
+                    PlayerWalkTex,
+                    new IntRect[] {
+                        new IntRect(15, 76, 32, 48),
+                    },
+                    new Vector2f[] {
+                        new Vector2f(64, 96),
+                    }
+                ),
+                new Vector2f(32, 48),
+                new IntRect(0, 0, 64, 96),
+                0
             );
         }
     }
