@@ -56,6 +56,9 @@ namespace engine {
         }
 
         public void Init() {
+            Settings.BgMusic.Loop = true;
+            Settings.BgMusic.Play();
+
             foreach(var gameObject in gameObjects) {
                 gameObject.Init();
             }
@@ -79,6 +82,10 @@ namespace engine {
                 );
 
                 gameObject.Update(deltaTime, keys, this);
+            }
+
+            if(keys.Fire2) {
+                Settings.PopSfx.Play();
             }
         }
 
