@@ -30,7 +30,7 @@ namespace engine {
         private float moveSpeed;
 
         public Player(Vector2f defaultPos) {
-            spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
+            spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
             pos = defaultPos;
 
             vel = new Vector2f(0, 0);
