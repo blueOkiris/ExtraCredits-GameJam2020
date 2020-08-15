@@ -72,11 +72,11 @@ namespace engine {
         }
 
         public void Update(float deltaTime, KeyState keys) {
-            if(!keys.Jump) {
+            if(!keys.Pause) {
                 canChangePause = true;
             }
 
-            if(keys.Jump && canChangePause) {
+            if(keys.Pause && canChangePause) {
                 canChangePause = false;
                 isPaused = !isPaused;
             }

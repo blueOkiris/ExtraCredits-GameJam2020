@@ -9,6 +9,7 @@ using System.Threading;
 namespace engine {
     class KeyState {
         public bool Quit = false;
+        public bool Pause = false;
 
         public bool Up = false;
         public bool Down = false;
@@ -99,6 +100,7 @@ namespace engine {
             var keyEventArgs = eventArgs as KeyEventArgs;
             stateLock.WaitOne();
             keys.Quit = keyEventArgs.Code == Keyboard.Key.Escape ? true : keys.Quit;
+            keys.Pause = keyEventArgs.Code == Keyboard.Key.P ? true : keys.Pause;
             keys.Up = (keyEventArgs.Code == Keyboard.Key.Up || keyEventArgs.Code == Keyboard.Key.W) ? true : keys.Up;
             keys.Down = (keyEventArgs.Code == Keyboard.Key.Down || keyEventArgs.Code == Keyboard.Key.S) ? true : keys.Down;
             keys.Left = (keyEventArgs.Code == Keyboard.Key.Left || keyEventArgs.Code == Keyboard.Key.A) ? true : keys.Left;
@@ -113,6 +115,7 @@ namespace engine {
             var keyEventArgs = eventArgs as KeyEventArgs;
             stateLock.WaitOne();
             keys.Quit = keyEventArgs.Code == Keyboard.Key.Escape ? false : keys.Quit;
+            keys.Pause = keyEventArgs.Code == Keyboard.Key.P ? false : keys.Pause;
             keys.Up = (keyEventArgs.Code == Keyboard.Key.Up || keyEventArgs.Code == Keyboard.Key.W) ? false : keys.Up;
             keys.Down = (keyEventArgs.Code == Keyboard.Key.Down || keyEventArgs.Code == Keyboard.Key.S) ? false : keys.Down;
             keys.Left = (keyEventArgs.Code == Keyboard.Key.Left || keyEventArgs.Code == Keyboard.Key.A) ? false : keys.Left;

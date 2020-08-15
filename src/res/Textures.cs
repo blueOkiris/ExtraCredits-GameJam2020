@@ -108,6 +108,8 @@ namespace engine {
         public readonly GameSprite Empty;
         public readonly GameSprite PlayerWalkRight, PlayerWalkLeft;
         public readonly GameSprite PlayerStandRight, PlayerStandLeft;
+        public readonly GameSprite PlayerJumpRight, PlayerJumpLeft;
+        public readonly GameSprite PlayerFallRight, PlayerFallLeft;
         public readonly GameSprite SimpleGrassBlock;
 
         private Sprites() {
@@ -185,6 +187,62 @@ namespace engine {
                     PlayerWalkTex,
                     new IntRect[] {
                         new IntRect(103, 35, 32, 32),
+                    },
+                    new Vector2f[] {
+                        new Vector2f(128, 128),
+                    }
+                ),
+                new Vector2f(64, 64),
+                new IntRect(0, 0, 128, 128),
+                0
+            );
+            PlayerJumpRight = new GameSprite(
+                GameSprite.GetImagesFromTexture(
+                    PlayerWalkTex,
+                    new IntRect[] {
+                        new IntRect(1, 69, 32, 32),
+                    },
+                    new Vector2f[] {
+                        new Vector2f(128, 128),
+                    }
+                ),
+                new Vector2f(64, 64),
+                new IntRect(0, 0, 128, 128),
+                0
+            );
+            PlayerFallRight = new GameSprite(
+                GameSprite.GetImagesFromTexture(
+                    PlayerWalkTex,
+                    new IntRect[] {
+                        new IntRect(35, 69, 32, 32),
+                    },
+                    new Vector2f[] {
+                        new Vector2f(128, 128),
+                    }
+                ),
+                new Vector2f(64, 64),
+                new IntRect(0, 0, 128, 128),
+                0
+            );
+            PlayerJumpLeft = new GameSprite(
+                GameSprite.GetImagesFromTexture(
+                    PlayerWalkTex,
+                    new IntRect[] {
+                        new IntRect(69, 69, 32, 32),
+                    },
+                    new Vector2f[] {
+                        new Vector2f(128, 128),
+                    }
+                ),
+                new Vector2f(64, 64),
+                new IntRect(0, 0, 128, 128),
+                0
+            );
+            PlayerFallLeft = new GameSprite(
+                GameSprite.GetImagesFromTexture(
+                    PlayerWalkTex,
+                    new IntRect[] {
+                        new IntRect(103, 69, 32, 32),
                     },
                     new Vector2f[] {
                         new Vector2f(128, 128),

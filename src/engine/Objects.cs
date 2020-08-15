@@ -151,6 +151,8 @@ namespace engine {
         private GameSprite spriteIndex;
         private float moveSpeed;
         private bool facingLeft;
+        private float gravity, jumpSpeed;
+        private bool canJump;
 
         public string GetTag() => "player";
         public int GetDepth() => 1;
@@ -161,10 +163,14 @@ namespace engine {
             spriteIndex.Position = pos;
             spriteIndex.Update(0);
 
-            vel = new Vector2f(0, 0);
-            acc = new Vector2f(0, 0);
+            gravity = 8000;
+            jumpSpeed = 2000;
+            canJump = false;
 
-            moveSpeed = 512;
+            vel = new Vector2f(0, 0);
+            acc = new Vector2f(0, gravity);
+
+            moveSpeed = 700;
             facingLeft = false;
         }
 
@@ -173,28 +179,12 @@ namespace engine {
         }
 
         public void Update(float deltaTime, KeyState keys, Room room) {
-            if(keys.Up && pos.Y > 0) {
-                if(vel.Y != -moveSpeed) {
-                    vel.Y = -moveSpeed;
-
-                    if(facingLeft) {
-                        spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkLeft);
-                    } else {
-                        spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
-                    }
+            if(keys.Jump && canJump) {
+                var platforms = Engine.FindGameObjectsByTag("block", room);
+                if(Engine.IsPlaceMeeting(new Vector2f(pos.X, pos.Y + 1), this, platforms)) {
+                    vel.Y = -jumpSpeed;
+                    canJump = false;
                 }
-            } else if(keys.Down && pos.Y < room.GetSize().Y) {
-                if(vel.Y != moveSpeed) {
-                    vel.Y = moveSpeed;
-
-                    if(facingLeft) {
-                        spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkLeft);
-                    } else {
-                        spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
-                    }
-                }
-            } else {
-                vel.Y = 0;
             }
 
             if(keys.Left && pos.X > 0) {
@@ -213,9 +203,7 @@ namespace engine {
                 facingLeft = false;
             } else {
                 vel.X = 0;
-            }
 
-            if(vel.X == 0 && vel.Y == 0) {
                 if(facingLeft) {
                     spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandLeft);
                 } else {
@@ -224,19 +212,48 @@ namespace engine {
             }
 
             var blocks = Engine.FindGameObjectsByTag("block", room);
-            if(Engine.IsPlaceMeeting(new Vector2f(pos.X + vel.X * deltaTime, pos.Y), this, blocks)) {
+
+            if(Engine.IsPlaceMeeting(new Vector2f(pos.X + vel.X * deltaTime, pos.Y + 2), this, blocks)
+                    && Engine.IsPlaceMeeting(new Vector2f(pos.X + vel.X * deltaTime, pos.Y - 2), this, blocks)) {
                 while(!Engine.IsPlaceMeeting(new Vector2f(pos.X, pos.Y), this, blocks)) {
                     pos.X += Math.Sign(vel.X);
                 }
                 pos.X -= Math.Sign(vel.X);
                 vel.X = 0;
             }
-            if(Engine.IsPlaceMeeting(new Vector2f(pos.X, pos.Y + vel.Y * deltaTime), this, blocks)) {
+            
+            if(Engine.IsPlaceMeeting(new Vector2f(pos.X + 2, pos.Y + vel.Y * deltaTime), this, blocks)
+                    && Engine.IsPlaceMeeting(new Vector2f(pos.X - 2, pos.Y + vel.Y * deltaTime), this, blocks)) {
                 while(!Engine.IsPlaceMeeting(new Vector2f(pos.X, pos.Y), this, blocks)) {
                     pos.Y += Math.Sign(vel.Y);
                 }
                 pos.Y -= Math.Sign(vel.Y);
+                
                 vel.Y = 0;
+                acc.Y = 0;
+                canJump = true;
+            } else {
+                acc.Y = gravity;
+            }
+
+            if(vel.Y > 0) {
+                if(facingLeft) {
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerFallLeft);
+                } else {
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerFallRight);
+                }
+            } else if(vel.Y < 0) {
+                if(facingLeft) {
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerJumpLeft);
+                } else {
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerJumpRight);
+                }
+            } else if(spriteIndex.ImageSpeed == 0) {
+                if(facingLeft) {
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkLeft);
+                } else {
+                    spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
+                }
             }
 
             spriteIndex.Position = pos;
