@@ -79,7 +79,9 @@ namespace engine {
                 stateLock.WaitOne();
                 window.DispatchEvents();
                 window.Clear(Settings.DefaultBgColor);
+
                 draw();
+                
                 window.Display();
                 stateLock.ReleaseMutex();
             }
