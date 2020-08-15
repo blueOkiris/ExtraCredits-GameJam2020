@@ -118,10 +118,10 @@ namespace engine {
                 GameSprite.GetImagesFromTexture(
                     PlayerWalkTex,
                     new IntRect[] {
-                        new IntRect(15, 76, 32, 48),
-                        new IntRect(78, 76, 32, 48),
-                        new IntRect(15, 76, 32, 48),
-                        new IntRect(269, 76, 32, 48)
+                        new IntRect(15, 78, 32, 48),
+                        new IntRect(78, 78, 32, 48),
+                        new IntRect(15, 78, 32, 48),
+                        new IntRect(269, 78, 32, 48)
                     },
                     new Vector2f[] {
                         new Vector2f(64, 96),
@@ -152,7 +152,7 @@ namespace engine {
                 GameSprite.GetImagesFromTexture(
                     PlayerWalkTex,
                     new IntRect[] {
-                        new IntRect(15, 76, 32, 48),
+                        new IntRect(15, 78, 32, 48),
                     },
                     new Vector2f[] {
                         new Vector2f(64, 96),
