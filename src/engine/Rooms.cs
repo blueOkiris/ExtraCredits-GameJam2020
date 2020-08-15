@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using SFML.Graphics;
 using SFML.System;
 
@@ -21,6 +22,8 @@ namespace engine {
         private Vector2u viewPos;
         private View view;
 
+        private bool isPaused, canChangePause;
+
         public TestRoom() {
             size = new Vector2u(2560, 1280);
             viewPos = new Vector2u(0, 0);
@@ -33,7 +36,8 @@ namespace engine {
             );
 
             var gameObjList = new List<GameObject>() {
-                new MessageBox("Hello, world!"),
+                new MessageBox("Hello, world!", "hworld"),
+                new MessageBox("Game Paused", "pause"),
                 new TestPlayer(new Vector2f(512, 512)),
                 new SimpleBlock(new Vector2f(256, 256))
             };
@@ -49,6 +53,9 @@ namespace engine {
 
             gameObjects = gameObjList.ToArray();
             Array.Sort(gameObjects);
+
+            isPaused = false;
+            canChangePause = true;
         }
 
         public Room ChangeIfShould() {
@@ -65,9 +72,29 @@ namespace engine {
         }
 
         public void Update(float deltaTime, KeyState keys) {
+            if(!keys.Jump) {
+                canChangePause = true;
+            }
+
+            if(keys.Jump && canChangePause) {
+                canChangePause = false;
+                isPaused = !isPaused;
+            }
+
+            (Engine.FindGameObjectsByTag("msg-box-pause", this)[0] as MessageBox).Show = isPaused;
+
+
+            if(isPaused) {
+                return;
+            }
+
             foreach(var gameObject in gameObjects) {
                 if(gameObject.GetTag() == "player") {
                     calculateView(gameObject.GetPosition());
+                }
+
+                if(gameObject.GetTag() == "msg-box-hworld") {
+                    (gameObject as MessageBox).Show = keys.Fire1;
                 }
 
                 var pos = gameObject.GetPosition();

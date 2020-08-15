@@ -75,11 +75,15 @@ namespace engine {
     }
 
     class MessageBox : GameObject {
+        public bool Show;
+
         private Text message;
         private RectangleShape box;
-        private bool show;
+        private string id;
 
-        public MessageBox(string message) {
+        public MessageBox(string message, string id) {
+            this.id = id;
+
             this.message = new Text(message, Settings.DefaultFont, 30);
             this.message.Origin = new Vector2f(
                 this.message.GetLocalBounds().Width / 2,
@@ -100,17 +104,15 @@ namespace engine {
             box.OutlineColor = Settings.DefaultOutlineColor;
             box.OutlineThickness = 30;
 
-            show = false;
+            Show = false;
         }
 
-        public string GetTag() => "msg-box";
+        public string GetTag() => "msg-box-" + id;
         public int GetDepth() => int.MaxValue;
 
         public void Init() {}
 
         public void Update(float deltaTime, KeyState keys, Room room) {
-            show = keys.Fire1;
-
             box.Position = new Vector2f(
                 room.GetViewPosition().X + Settings.ScreenSize.X / 2,
                 room.GetViewPosition().Y + Settings.ScreenSize.Y / 2
@@ -123,7 +125,7 @@ namespace engine {
             target.Draw(message);
         }
 
-        public bool ShouldCull(Room room) => !show;
+        public bool ShouldCull(Room room) => !Show;
 
         public Vector2f GetPosition() => new Vector2f(0, 0);
         public Vector2f GetVelocity() => new Vector2f(0, 0);
