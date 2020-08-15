@@ -57,6 +57,17 @@ namespace engine {
             foreach(var gameObject in gameObjects) {
                 var pos = gameObject.GetPosition();
 
+                if(gameObject.GetTag() == "player") {
+                    var viewX = (int) pos.X - Settings.ScreenSize.X / 2;
+
+                    if(viewX < 0) {
+                        viewX = 0;
+                    } else if(viewX + Settings.ScreenSize.X > size.X) {
+                        viewX = size.X - Settings.ScreenSize.X;
+                    }
+                    view.X = (uint) viewX;
+                }
+
                 if(pos.X >= (int) view.X - 64 && pos.X <= view.X + Settings.ScreenSize.X + 64
                         && pos.Y >= (int) view.Y - 64 && pos.Y <= view.Y + Settings.ScreenSize.Y + 64) {
                     target.Draw(gameObject);

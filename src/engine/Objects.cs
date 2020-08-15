@@ -16,6 +16,8 @@ namespace engine {
         void SetSpriteIndex(GameSprite spr);
         void SetMask(IntRect mask);
 
+        string GetTag();
+
         void Init();
         void Update(float deltaTime, KeyState keys, Room room);
     }
@@ -28,6 +30,8 @@ namespace engine {
 
         private GameSprite spriteIndex;
         private float moveSpeed;
+
+        public string GetTag() => "player";
 
         public Player(Vector2f defaultPos) {
             spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
@@ -57,6 +61,7 @@ namespace engine {
                     vel.X = moveSpeed;
                     spriteIndex = new GameSprite(Sprites.getInstance().PlayerWalkRight);
                 }
+                Console.WriteLine("Position: (" + pos.X + ", " + pos.Y + ")");
             } else {
                 if(vel.X > 0) {
                     spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
