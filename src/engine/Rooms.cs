@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
 
@@ -31,10 +32,22 @@ namespace engine {
                 (Vector2f) Settings.ScreenSize
             );
 
-            gameObjects = new GameObject[] {
+            var gameObjList = new List<GameObject>() {
                 new MessageBox("Hello, world!"),
-                new TestPlayer(new Vector2f(512, 512))
+                new TestPlayer(new Vector2f(512, 512)),
+                new SimpleBlock(new Vector2f(256, 256))
             };
+
+            for(int i = 0; i < size.X / 2; i++) {
+                gameObjList.Add(new SimpleBlock(new Vector2f(i * 64 + 32, 32)));
+                gameObjList.Add(new SimpleBlock(new Vector2f(i * 64 + 32, size.Y - 32)));
+            }
+            for(int i = 0; i < size.Y / 64; i++) {
+                gameObjList.Add(new SimpleBlock(new Vector2f(32, i * 64 + 32)));
+                gameObjList.Add(new SimpleBlock(new Vector2f(size.X - 32, i * 64 + 32)));
+            }
+
+            gameObjects = gameObjList.ToArray();
             Array.Sort(gameObjects);
         }
 
@@ -73,7 +86,7 @@ namespace engine {
             foreach(var gameObject in gameObjects) {
                 var pos = gameObject.GetPosition();
 
-                if(!gameObject.ShouldCull()) {
+                if(!gameObject.ShouldCull(this)) {
                     target.Draw(gameObject);
                 }
             }

@@ -15,7 +15,17 @@ namespace engine {
         private RectangleShape drawShape;
 
         public GameSprite(GameSprite original) {
-            Images = original.Images.ToList();
+            Images = new List<RectangleShape>();
+
+            foreach(var image in original.Images) {
+                RectangleShape newImage = new RectangleShape(image.Size);
+                newImage.Origin = image.Origin;
+                newImage.Texture = image.Texture;
+                newImage.TextureRect = image.TextureRect;
+
+                Images.Add(newImage);
+            }
+
             CollisionMask = new IntRect(
                 original.CollisionMask.Left, original.CollisionMask.Top, 
                 original.CollisionMask.Width, original.CollisionMask.Height
@@ -44,7 +54,7 @@ namespace engine {
             int imgIndexOld = (int) Math.Floor(ImageIndex);
 
             ImageIndex += ImageSpeed * deltaTime;
-            if(ImageIndex > Images.Count) {
+            if(ImageIndex >= Images.Count) {
                 ImageIndex = 0;
             }
 
@@ -90,9 +100,11 @@ namespace engine {
 
         public readonly Texture Blank;
         public readonly Texture PlayerWalkTex;
+        public readonly Texture SimpleGrassBlockTex;
         public readonly GameSprite Empty;
         public readonly GameSprite PlayerWalkRight, PlayerWalkLeft;
         public readonly GameSprite PlayerStandRight, PlayerStandLeft;
+        public readonly GameSprite SimpleGrassBlock;
 
         private Sprites() {
             Blank = new Texture("img/blank.png");
@@ -176,6 +188,22 @@ namespace engine {
                 ),
                 new Vector2f(32, 48),
                 new IntRect(0, 0, 64, 96),
+                0
+            );
+
+            SimpleGrassBlockTex = new Texture("img/simple-dirt.png");
+            SimpleGrassBlock = new GameSprite(
+                GameSprite.GetImagesFromTexture(
+                    SimpleGrassBlockTex,
+                    new IntRect[] {
+                        new IntRect(0, 0, 64, 64)
+                    },
+                    new Vector2f[] {
+                        new Vector2f(64, 64)
+                    }
+                ),
+                new Vector2f(32, 32),
+                new IntRect(0, 0, 32, 32),
                 0
             );
         }

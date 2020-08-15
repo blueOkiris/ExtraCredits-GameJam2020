@@ -22,7 +22,56 @@ namespace engine {
         void Init();
         void Update(float deltaTime, KeyState keys, Room room);
 
-        bool ShouldCull();
+        bool ShouldCull(Room room);
+    }
+
+    class SimpleBlock : GameObject {
+        private Vector2f pos;
+        private GameSprite box;
+
+        public SimpleBlock(Vector2f position) {
+            pos = position;
+            box = new GameSprite(Sprites.getInstance().SimpleGrassBlock);
+            box.Position = position;
+            box.Update(0);
+        }
+
+        public string GetTag() => "msg-box";
+        public int GetDepth() => int.MinValue;
+
+        public void Init() {}
+        public void Update(float deltaTime, KeyState keys, Room room) {}
+
+        public void Draw(RenderTarget target, RenderStates states) {
+            target.Draw(box);
+        }
+
+        public bool ShouldCull(Room room) {
+            var view = room.GetViewPosition();
+
+            if((pos.X < (int) view.X - 64) || (pos.X > (int) view.X + Settings.ScreenSize.X + 64) ||
+                    (pos.Y < (int) view.Y - 64) || (pos.Y > (int) view.Y + Settings.ScreenSize.Y + 64)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        public Vector2f GetPosition() => pos;
+
+        public Vector2f GetVelocity() => new Vector2f(0, 0);
+        public Vector2f GetAcceleration() => new Vector2f(0, 0);
+        public IntRect GetMask() => new IntRect(0, 0, 0, 0);
+        public GameSprite GetSpriteIndex() => Sprites.getInstance().Empty;
+        public void SetPosition(Vector2f pos) {}
+        public void SetVelocity(Vector2f vel) {}
+        public void SetAcceleration(Vector2f acc) {}
+        public void SetSpriteIndex(GameSprite spr) {}
+        public void SetMask(IntRect mask) {}
+
+        public int CompareTo(object obj) {
+            return GetDepth().CompareTo((obj as GameObject).GetDepth());
+        }
     }
 
     class MessageBox : GameObject {
@@ -74,14 +123,13 @@ namespace engine {
             target.Draw(message);
         }
 
-        public bool ShouldCull() => !show;
+        public bool ShouldCull(Room room) => !show;
 
         public Vector2f GetPosition() => new Vector2f(0, 0);
         public Vector2f GetVelocity() => new Vector2f(0, 0);
         public Vector2f GetAcceleration() => new Vector2f(0, 0);
         public IntRect GetMask() => new IntRect(0, 0, 0, 0);
         public GameSprite GetSpriteIndex() => Sprites.getInstance().Empty;
-
         public void SetPosition(Vector2f pos) {}
         public void SetVelocity(Vector2f vel) {}
         public void SetAcceleration(Vector2f acc) {}
@@ -108,6 +156,8 @@ namespace engine {
         public TestPlayer(Vector2f defaultPos) {
             spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
             pos = defaultPos;
+            spriteIndex.Position = pos;
+            spriteIndex.Update(0);
 
             vel = new Vector2f(0, 0);
             acc = new Vector2f(0, 0);
@@ -121,9 +171,6 @@ namespace engine {
         }
 
         public void Update(float deltaTime, KeyState keys, Room room) {
-            spriteIndex.Position = pos;
-            spriteIndex.Update(deltaTime);
-            
             if(keys.Up && pos.Y > 0) {
                 if(vel.Y != -moveSpeed) {
                     vel.Y = -moveSpeed;
@@ -173,13 +220,16 @@ namespace engine {
                     spriteIndex = new GameSprite(Sprites.getInstance().PlayerStandRight);
                 }
             }
+
+            spriteIndex.Position = pos;
+            spriteIndex.Update(deltaTime);
         }
 
         public void Draw(RenderTarget target, RenderStates states) {
             target.Draw(spriteIndex);
         }
 
-        public bool ShouldCull() => false;
+        public bool ShouldCull(Room room) => false;
 
         public Vector2f GetAcceleration() => acc;
         public Vector2f GetVelocity() => vel;
