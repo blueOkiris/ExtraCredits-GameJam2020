@@ -131,9 +131,9 @@ namespace engine {
                     PlayerWalkTex,
                     new IntRect[] {
                         new IntRect(1, 1, 32, 32),
-                        new IntRect(34, 1, 32, 32),
-                        new IntRect(67, 1, 32, 32),
-                        new IntRect(100, 1, 32, 32)
+                        new IntRect(35, 1, 32, 32),
+                        new IntRect(69, 1, 32, 32),
+                        new IntRect(103, 1, 32, 32)
                     },
                     new Vector2f[] {
                         new Vector2f(128, 128),
@@ -144,16 +144,16 @@ namespace engine {
                 ),
                 new Vector2f(64, 64),
                 new IntRect(0, 0, 128, 128),
-                12
+                16
             );
             PlayerWalkLeft = new GameSprite(
                 GameSprite.GetImagesFromTexture(
                     PlayerWalkTex,
                     new IntRect[] {
-                        new IntRect(100, 34, 32, 32),
-                        new IntRect(67, 34, 32, 32),
-                        new IntRect(34, 34, 32, 32),
-                        new IntRect(1, 34, 32, 32)
+                        new IntRect(103, 35, 32, 32),
+                        new IntRect(69, 35, 32, 32),
+                        new IntRect(35, 35, 32, 32),
+                        new IntRect(1, 35, 32, 32)
                     },
                     new Vector2f[] {
                         new Vector2f(128, 128),
@@ -164,7 +164,7 @@ namespace engine {
                 ),
                 new Vector2f(64, 64),
                 new IntRect(0, 0, 128, 128),
-                12
+                16
             );
             PlayerStandRight = new GameSprite(
                 GameSprite.GetImagesFromTexture(
@@ -184,7 +184,7 @@ namespace engine {
                 GameSprite.GetImagesFromTexture(
                     PlayerWalkTex,
                     new IntRect[] {
-                        new IntRect(100, 34, 32, 32),
+                        new IntRect(103, 35, 32, 32),
                     },
                     new Vector2f[] {
                         new Vector2f(128, 128),
@@ -200,7 +200,7 @@ namespace engine {
                 GameSprite.GetImagesFromTexture(
                     SimpleGrassBlockTex,
                     new IntRect[] {
-                        new IntRect(0, 0, 32, 32)
+                        new IntRect(1, 1, 32, 32)
                     },
                     new Vector2f[] {
                         new Vector2f(128, 128)
