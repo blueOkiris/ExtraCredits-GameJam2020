@@ -20,10 +20,74 @@ namespace engine {
 
         void Init();
         void Update(float deltaTime, KeyState keys, Room room);
+
+        bool ShouldCull();
     }
 
-    class TestPlayer : GameObject
-    {
+    class MessageBox : GameObject {
+        private Text message;
+        private RectangleShape box;
+        private bool show;
+
+        public MessageBox(string message) {
+            this.message = new Text(message, Settings.DefaultFont, 30);
+            this.message.Origin = new Vector2f(
+                this.message.GetLocalBounds().Width / 2,
+                this.message.GetLocalBounds().Height / 2
+            );
+
+            box = new RectangleShape(
+                new Vector2f(
+                    Settings.ScreenSize.X * 0.75f,
+                    Settings.ScreenSize.Y * 0.75f
+                )
+            );
+            box.Origin = new Vector2f(
+                box.GetLocalBounds().Width / 2,
+                box.GetLocalBounds().Height / 2
+            );
+            box.FillColor = Settings.DefaultFillColor;
+            box.OutlineColor = Settings.DefaultOutlineColor;
+            box.OutlineThickness = 30;
+
+            show = false;
+        }
+
+        public string GetTag() => "msg-box";
+
+        public void Init() {}
+
+        public void Update(float deltaTime, KeyState keys, Room room) {
+            show = keys.Fire1;
+
+            box.Position = new Vector2f(
+                room.GetViewPosition().X + Settings.ScreenSize.X / 2,
+                room.GetViewPosition().Y + Settings.ScreenSize.Y / 2
+            );
+            message.Position = box.Position;
+        }
+
+        public void Draw(RenderTarget target, RenderStates states) {
+            target.Draw(box);
+            target.Draw(message);
+        }
+
+        public bool ShouldCull() => !show;
+
+        public Vector2f GetPosition() => new Vector2f(0, 0);
+        public Vector2f GetVelocity() => new Vector2f(0, 0);
+        public Vector2f GetAcceleration() => new Vector2f(0, 0);
+        public IntRect GetMask() => new IntRect(0, 0, 0, 0);
+        public GameSprite GetSpriteIndex() => Sprites.getInstance().Empty;
+
+        public void SetPosition(Vector2f pos) {}
+        public void SetVelocity(Vector2f vel) {}
+        public void SetAcceleration(Vector2f acc) {}
+        public void SetSpriteIndex(GameSprite spr) {}
+        public void SetMask(IntRect mask) {}
+    }
+
+    class TestPlayer : GameObject {
         private Vector2f acc;
         private Vector2f vel;
         private Vector2f pos;
@@ -107,6 +171,8 @@ namespace engine {
         public void Draw(RenderTarget target, RenderStates states) {
             target.Draw(spriteIndex);
         }
+
+        public bool ShouldCull() => false;
 
         public Vector2f GetAcceleration() => acc;
         public Vector2f GetVelocity() => vel;

@@ -88,11 +88,27 @@ namespace engine {
             return instance;
         }
 
+        public readonly Texture Blank;
         public readonly Texture PlayerWalkTex;
+        public readonly GameSprite Empty;
         public readonly GameSprite PlayerWalkRight, PlayerWalkLeft;
         public readonly GameSprite PlayerStandRight, PlayerStandLeft;
 
         private Sprites() {
+            Blank = new Texture("img/blank.png");
+            Empty = new GameSprite(
+                GameSprite.GetImagesFromTexture(
+                    Blank, 
+                    new IntRect[] { new IntRect(0, 0, 64, 64) }, 
+                    new Vector2f[] {
+                        new Vector2f(64, 64)
+                    }
+                ),
+                new Vector2f(0, 0),
+                new IntRect(0, 0, 64, 64),
+                0
+            );
+
             PlayerWalkTex = new Texture("img/basic-walk.png");
             PlayerWalkRight = new GameSprite(
                 GameSprite.GetImagesFromTexture(

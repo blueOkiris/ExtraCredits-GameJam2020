@@ -30,8 +30,10 @@ namespace engine {
                 ), 
                 (Vector2f) Settings.ScreenSize
             );
+
             gameObjects = new GameObject[] {
-                new TestPlayer(new Vector2f(512, 512))
+                new TestPlayer(new Vector2f(512, 512)),
+                new MessageBox("Hello, world!")
             };
         }
 
@@ -70,8 +72,7 @@ namespace engine {
             foreach(var gameObject in gameObjects) {
                 var pos = gameObject.GetPosition();
 
-                if(pos.X >= (int) viewPos.X - 64 && pos.X <= viewPos.X + Settings.ScreenSize.X + 64
-                        && pos.Y >= (int) viewPos.Y - 64 && pos.Y <= viewPos.Y + Settings.ScreenSize.Y + 64) {
+                if(!gameObject.ShouldCull()) {
                     target.Draw(gameObject);
                 }
             }
