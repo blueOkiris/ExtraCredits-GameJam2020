@@ -125,73 +125,73 @@ namespace engine {
                 0
             );
 
-            PlayerWalkTex = new Texture("img/basic-walk.png");
+            PlayerWalkTex = new Texture("img/sammy-move.png");
             PlayerWalkRight = new GameSprite(
                 GameSprite.GetImagesFromTexture(
                     PlayerWalkTex,
                     new IntRect[] {
-                        new IntRect(15, 206, 32, 48),
-                        new IntRect(78, 206, 32, 48),
-                        new IntRect(15, 206, 32, 48),
-                        new IntRect(269, 206, 32, 48)
+                        new IntRect(1, 1, 32, 32),
+                        new IntRect(34, 1, 32, 32),
+                        new IntRect(67, 1, 32, 32),
+                        new IntRect(100, 1, 32, 32)
                     },
                     new Vector2f[] {
-                        new Vector2f(64, 96),
-                        new Vector2f(64, 96),
-                        new Vector2f(64, 96),
-                        new Vector2f(64, 96)
+                        new Vector2f(128, 128),
+                        new Vector2f(128, 128),
+                        new Vector2f(128, 128),
+                        new Vector2f(128, 128)
                     }
                 ),
-                new Vector2f(32, 48),
-                new IntRect(8, 0, 48, 96),
-                8
+                new Vector2f(64, 64),
+                new IntRect(0, 0, 128, 128),
+                12
             );
             PlayerWalkLeft = new GameSprite(
                 GameSprite.GetImagesFromTexture(
                     PlayerWalkTex,
                     new IntRect[] {
-                        new IntRect(15, 78, 32, 48),
-                        new IntRect(78, 78, 32, 48),
-                        new IntRect(15, 78, 32, 48),
-                        new IntRect(269, 78, 32, 48)
+                        new IntRect(100, 34, 32, 32),
+                        new IntRect(67, 34, 32, 32),
+                        new IntRect(34, 34, 32, 32),
+                        new IntRect(1, 34, 32, 32)
                     },
                     new Vector2f[] {
-                        new Vector2f(64, 96),
-                        new Vector2f(64, 96),
-                        new Vector2f(64, 96),
-                        new Vector2f(64, 96)
+                        new Vector2f(128, 128),
+                        new Vector2f(128, 128),
+                        new Vector2f(128, 128),
+                        new Vector2f(128, 128)
                     }
                 ),
-                new Vector2f(32, 48),
-                new IntRect(8, 0, 48, 96),
-                8
+                new Vector2f(64, 64),
+                new IntRect(0, 0, 128, 128),
+                12
             );
             PlayerStandRight = new GameSprite(
                 GameSprite.GetImagesFromTexture(
                     PlayerWalkTex,
                     new IntRect[] {
-                        new IntRect(15, 206, 32, 48),
+                        new IntRect(1, 1, 32, 32),
                     },
                     new Vector2f[] {
-                        new Vector2f(64, 96),
+                        new Vector2f(128, 128),
                     }
                 ),
-                new Vector2f(32, 48),
-                new IntRect(8, 0, 48, 96),
+                new Vector2f(64, 64),
+                new IntRect(0, 0, 128, 128),
                 0
             );
             PlayerStandLeft = new GameSprite(
                 GameSprite.GetImagesFromTexture(
                     PlayerWalkTex,
                     new IntRect[] {
-                        new IntRect(15, 78, 32, 48),
+                        new IntRect(100, 34, 32, 32),
                     },
                     new Vector2f[] {
-                        new Vector2f(64, 96),
+                        new Vector2f(128, 128),
                     }
                 ),
-                new Vector2f(32, 48),
-                new IntRect(8, 0, 48, 96),
+                new Vector2f(64, 64),
+                new IntRect(0, 0, 128, 128),
                 0
             );
 
@@ -203,11 +203,11 @@ namespace engine {
                         new IntRect(0, 0, 64, 64)
                     },
                     new Vector2f[] {
-                        new Vector2f(64, 64)
+                        new Vector2f(128, 128)
                     }
                 ),
-                new Vector2f(32, 32),
-                new IntRect(0, 0, 64, 64),
+                new Vector2f(64, 64),
+                new IntRect(0, 0, 128, 128),
                 0
             );
         }

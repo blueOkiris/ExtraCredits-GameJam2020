@@ -42,13 +42,13 @@ namespace engine {
                 new SimpleBlock(new Vector2f(256, 256))
             };
 
-            for(int i = 0; i < size.X / 2; i++) {
-                gameObjList.Add(new SimpleBlock(new Vector2f(i * 64 + 32, 32)));
-                gameObjList.Add(new SimpleBlock(new Vector2f(i * 64 + 32, size.Y - 32)));
+            for(int i = 0; i < size.X / 128; i++) {
+                gameObjList.Add(new SimpleBlock(new Vector2f(i * 128 + 64, 64)));
+                gameObjList.Add(new SimpleBlock(new Vector2f(i * 128 + 64, size.Y - 64)));
             }
-            for(int i = 0; i < size.Y / 64; i++) {
-                gameObjList.Add(new SimpleBlock(new Vector2f(32, i * 64 + 32)));
-                gameObjList.Add(new SimpleBlock(new Vector2f(size.X - 32, i * 64 + 32)));
+            for(int i = 0; i < size.Y / 128; i++) {
+                gameObjList.Add(new SimpleBlock(new Vector2f(64, i * 128 + 64)));
+                gameObjList.Add(new SimpleBlock(new Vector2f(size.X - 64, i * 128 + 64)));
             }
 
             gameObjects = gameObjList.ToArray();
