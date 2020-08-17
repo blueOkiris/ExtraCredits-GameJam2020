@@ -2,7 +2,7 @@
 OBJNAME :=   game-engine
 
 SRCFLDRS :=  src src/engine src/res
-INCFLDRS :=  include include/engine include/res
+INCFLDRS := include include/engine include/res
 ifdef LINUX
     LIBFLDRS :=  lib/linux
 else

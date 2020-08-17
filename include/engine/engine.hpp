@@ -3,8 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <thread>
-#include <chrono>
 #include <mutex>
+#include <chrono>
 #include <objects.hpp>
 #include <rooms.hpp>
 #include <engine.hpp>
@@ -27,11 +27,10 @@ namespace gamejam {
 
         class Engine {
             private:
-                std::thread _windowThread;
-                std::thread _updateThread;
+                std::shared_ptr<std::thread> _windowThread;
+                
                 KeyState _keys;
-                std::shared_ptr<sf::RenderWindow> _window;
-                std::mutex _lock;
+                sf::RenderWindow *_window;
                 
                 Engine();
 

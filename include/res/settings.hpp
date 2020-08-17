@@ -3,37 +3,30 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <memory>
 #include <string>
 
 namespace gamejam {
     namespace settingshelper {
-        sf::SoundBuffer soundFromFile(std::string fileName) {
-            sf::SoundBuffer sound;
-            sound.loadFromFile(fileName);
-            return sound;
-        }
-
-        sf::Font fontFromFile(std::string fileName) {
-            sf::Font font;
-            font.loadFromFile(fileName);
-            return font;
-        }
+        std::shared_ptr<sf::SoundBuffer> soundFromFile(std::string fileName);
+        std::shared_ptr<sf::Sound> createSoundFromBuffer(std::shared_ptr<sf::SoundBuffer> buffer);
+        sf::Font fontFromFile(std::string fileName);
     }
 
     namespace settings {
-        extern sf::Vector2u screenSize(1980, 1080);
-        extern std::string title("Game Jam Game-Engine");
-        extern int frameRate(30);
+        extern const sf::Vector2u screenSize;
+        extern const std::string title;
+        extern const int frameRate;
         
-        extern sf::Color defaultBgColor(sf::Color::Blue);
-        extern sf::Color defaultFillColor(60, 60, 100);
-        extern sf::Color defaultOutlineColor(10, 10, 10);
+        extern const sf::Color defaultBgColor;
+        extern const sf::Color defaultFillColor;
+        extern const sf::Color defaultOutlineColor;
 
-        extern sf::Font defaultFont(fontFromFile("fonts/Ubuntu-R.ttf"));
+        extern const sf::Font defaultFont;
 
-        extern sf::SoundBuffer bgMusicFile(soundFromFile("sound/bg-music.wav"));
-        extern sf::SoundBuffer popSfxFile(soundFromFile("sound/pop.wav"));
-        extern sf::Sound bgMusic(bgMusicFile);
-        extern sf::Sound popSfx(popSfxFile);
+        extern const std::shared_ptr<sf::SoundBuffer> bgMusicFile;
+        extern const std::shared_ptr<sf::SoundBuffer> popSfxFile;
+        extern const std::shared_ptr<sf::Sound> bgMusic;
+        extern const std::shared_ptr<sf::Sound> popSfx;
     }
 }

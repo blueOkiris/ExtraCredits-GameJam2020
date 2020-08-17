@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <mutex>
 #include <thread>
+#include <mutex>
 #include <memory>
 #include <objects.hpp>
 #include <rooms.hpp>
@@ -21,78 +21,89 @@ std::shared_ptr<Engine> Engine::getInstance() {
     return instance;
 }
 
-std::shared_ptr<sf::RenderWindow> createWindow() {
-    sf::RenderWindow window(
-        sf::VideoMode(settings::screenSize.x, settings::screenSize.y),
-        settings::title,
-        sf::Style::Close | sf::Style::Fullscreen
-    );
+void Engine::init() {
 
-    return std::make_shared<sf::RenderWindow>(window);
+}
+
+void Engine::draw() {
+
+}
+
+void Engine::update(double deltaTimeS, KeyState keys) {
+    
 }
 
 Engine::Engine() {
-    _windowThread = std::thread(
-        [&] () {
-            _window = createWindow();
+    _windowThread = std::make_shared<std::thread>(
+        std::thread(
+            [&] () {
+                std::mutex lock;
 
-            init();
+                _window = new sf::RenderWindow(
+                    sf::VideoMode(settings::screenSize.x, settings::screenSize.y),
+                    settings::title,
+                    sf::Style::Close | sf::Style::Fullscreen
+                );
 
-            std::thread _updateThread(
-                [&] () {
-                    auto startTime = std::chrono::system_clock::now();
-                    auto endTime = std::chrono::system_clock::now();
-                    double deltaTimeS = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
-                    double expectedDeltaTimeS = 1 / static_cast<double>(settings::frameRate);
-                    double timeDifferenceMs = 0;
+                init();
 
-                    while(_window->isOpen()) {
-                        startTime = std::chrono::system_clock::now();
-                        _mutex.lock();
-
-                        update(deltaTimeS, _keys);
-
-                        _mutex.unlock();
-                        endTime = std::chrono::system_clock::now();
+                std::thread updateThread(
+                    [&] () {
+                        auto startTime = std::chrono::system_clock::now();
+                        auto endTime = std::chrono::system_clock::now();
                         double deltaTimeS = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+                        double expectedDeltaTimeS = 1 / static_cast<double>(settings::frameRate);
+                        double timeDifferenceS = 0;
 
-                        if((timeDifferenceMs = 1000 * (deltaTimeS - expectedDeltaTimeS)) > 100) {
-                            std::thread::sleep((int) timeDifferenceMs - 100);
+                        while(_window->isOpen()) {
+                            startTime = std::chrono::system_clock::now();
+                            lock.lock();
+
+                            update(deltaTimeS, _keys);
+
+                            lock.unlock();
+                            endTime = std::chrono::system_clock::now();
+                            double deltaTimeS = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+
+                            if((timeDifferenceS = (deltaTimeS - expectedDeltaTimeS)) > 0.1) {
+                                std::this_thread::sleep_for(std::chrono::duration<double>(timeDifferenceS - 0.1));
+                            }
                         }
                     }
+                );
+
+                while(_window->isOpen()) {
+                    lock.lock();
+
+                    _window->clear(settings::defaultBgColor);
+                    draw();
+                    _window->display();
+
+                    sf::Event event;
+                    _window->pollEvent(event);
+
+                    switch(event.type) {
+                        case sf::Event::Closed:
+                            _window->close();
+                            break;
+
+                        case sf::Event::KeyPressed:
+                            keyPressed(event.key.code);
+                            break;
+
+                        case sf::Event::KeyReleased:
+                            keyReleased(event.key.code);
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    lock.unlock();
                 }
-            );
-
-            while(_window->isOpen()) {
-                _mutex.lock();
-
-                _window->clear(settings::defaultBgColor);
-                draw();
-                _window->display();
-
-                sf::Event event;
-                _window->pollEvent(event);
-
-                switch(event.type) {
-                    case sf::Event::Closed:
-                        _window->close();
-                        break;
-
-                    case sf::Event::KeyPressed:
-                        keyPressed(event.key.code);
-                        break;
-
-                    case sf::Event::KeyReleased:
-                        keyReleased(event.key.code);
-                        break;
-                }
-
-                _mutex.unlock();
             }
-        }
+        )
     );
-    
-    _windowThread.start();
 }
 
 void Engine::keyPressed(sf::Keyboard::Key key) {
@@ -120,7 +131,7 @@ void Engine::keyReleased(sf::Keyboard::Key key) {
 }
 
 void Engine::joinWindowThread() {
-    _windowThread.join();
+    _windowThread->join();
 }
 
 bool intersect(sf::IntRect a, sf::IntRect b) {
