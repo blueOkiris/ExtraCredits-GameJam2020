@@ -18,10 +18,4 @@ A Game made for Extra Credits 2020 Game Jam
 
 ## Build
 
-- Linux:
-
-   + Run `make LINUX=1`
- 
- - Windows
- 
-   + Run `mingw32-make <os>=1` where <os> can be WIN32 or WIN64 depending on your OS
+- Run `make`
