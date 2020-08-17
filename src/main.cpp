@@ -17,10 +17,10 @@ namespace gamejam {
     void safelyDisposeMusic() {
         settings::bgMusic->stop();
         settings::popSfx->stop();
-        delete settings::bgMusic.get();
-        delete settings::popSfx.get();
+        delete settings::bgMusic;
+        delete settings::popSfx;
 
-        delete settings::bgMusicFile.get();
-        delete settings::popSfx.get();
+        delete settings::bgMusicFile;
+        delete settings::popSfx;
     }
 }

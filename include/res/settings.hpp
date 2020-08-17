@@ -8,8 +8,7 @@
 
 namespace gamejam {
     namespace settingshelper {
-        std::shared_ptr<sf::SoundBuffer> soundFromFile(std::string fileName);
-        std::shared_ptr<sf::Sound> createSoundFromBuffer(std::shared_ptr<sf::SoundBuffer> buffer);
+        sf::SoundBuffer *soundFromFile(std::string fileName);
         sf::Font fontFromFile(std::string fileName);
     }
 
@@ -24,9 +23,9 @@ namespace gamejam {
 
         extern const sf::Font defaultFont;
 
-        extern const std::shared_ptr<sf::SoundBuffer> bgMusicFile;
-        extern const std::shared_ptr<sf::SoundBuffer> popSfxFile;
-        extern const std::shared_ptr<sf::Sound> bgMusic;
-        extern const std::shared_ptr<sf::Sound> popSfx;
+        extern const sf::SoundBuffer *bgMusicFile;
+        extern const sf::SoundBuffer *popSfxFile;
+        extern sf::Sound *bgMusic;
+        extern sf::Sound *popSfx;
     }
 }

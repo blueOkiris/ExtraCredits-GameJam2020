@@ -27,11 +27,7 @@ SRC :=       $(foreach folder,$(SRCFLDRS),$(wildcard $(folder)/*.cpp))
 
 # Targets
 $(OBJNAME) : $(SRCFILES) $(HFILES)
-	mkdir -p obj
-	$(foreach file,$(SRC),\
-		$(CPPC) $(INC) $(CPPFLAGS) -c $(file) -o obj/$(basename $(notdir $(file))).o; \
-	)
-	$(CPPC) $(LIB) -o $(OBJNAME) $(foreach file,$(SRC),obj/$(basename $(notdir $(file))).o) $(LDFLAGS)
+	$(CPPC) $(LIB) $(INC) $(CPPFLAGS) -o $(OBJNAME) $(SRC) $(LDFLAGS)
 
 
 .PHONY : clean

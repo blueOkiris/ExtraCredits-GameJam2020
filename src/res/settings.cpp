@@ -9,15 +9,10 @@ using namespace gamejam;
 using namespace settings;
 using namespace settingshelper;
 
-std::shared_ptr<sf::SoundBuffer> settingshelper::soundFromFile(std::string fileName) {
-    sf::SoundBuffer sound;
-    sound.loadFromFile(fileName);
-    return std::make_shared<sf::SoundBuffer>(sound);
-}
-
-std::shared_ptr<sf::Sound> settingshelper::createSoundFromBuffer(std::shared_ptr<sf::SoundBuffer> buffer) {
-    sf::Sound sound(*buffer);
-    return std::make_shared<sf::Sound>(sound);
+sf::SoundBuffer *settingshelper::soundFromFile(std::string fileName) {
+    sf::SoundBuffer *sound = new sf::SoundBuffer();
+    sound->loadFromFile(fileName);
+    return sound;
 }
 
 sf::Font settingshelper::fontFromFile(std::string fileName) {
@@ -38,15 +33,7 @@ const sf::Font settings::defaultFont(
     settingshelper::fontFromFile("fonts/Ubuntu-R.ttf")
 );
 
-const std::shared_ptr<sf::SoundBuffer> settings::bgMusicFile(
-    settingshelper::soundFromFile("sound/bg-music.wav")
-);
-const std::shared_ptr<sf::SoundBuffer> settings::popSfxFile(
-    settingshelper::soundFromFile("sound/pop.wav")
-);
-const std::shared_ptr<sf::Sound> settings::bgMusic(
-    createSoundFromBuffer(settings::bgMusicFile)
-);
-const std::shared_ptr<sf::Sound> settings::popSfx(
-    createSoundFromBuffer(settings::popSfxFile)
-);
+const sf::SoundBuffer *settings::bgMusicFile = settingshelper::soundFromFile("sound/bg-music.wav");
+const sf::SoundBuffer *settings::popSfxFile = settingshelper::soundFromFile("sound/pop.wav");
+sf::Sound *settings::bgMusic = new sf::Sound(*bgMusicFile);
+sf::Sound *settings::popSfx = new sf::Sound(*popSfxFile);
