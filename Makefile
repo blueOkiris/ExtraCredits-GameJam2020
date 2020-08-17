@@ -12,7 +12,7 @@ else
 endif
 
 CPPC :=      g++
-CPPFLAGS :=  -O2 -Wall
+CPPFLAGS :=  -O2 -Wall -pthread -std=c++14
 LDFLAGS :=   -lsfml-window-s \
              -lsfml-graphics-s \
 			 -lsfml-main \
